@@ -1,9 +1,9 @@
 import React from "react";
-import { View, ScrollView, Image } from "react-native";
+import { View, Image } from "react-native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
-import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 interface Vacancy {
   id: number;
@@ -67,6 +67,7 @@ const mockResumes: Resume[] = [
 ];
 
 const InnerVacancyScreen: React.FC = () => {
+  const navigation = useNavigation();
   const renderSkillTags = (skills: string[]) => (
     <View className="flex-row flex-wrap mt-2">
       {skills.map((skill, index) => (
@@ -82,6 +83,9 @@ const InnerVacancyScreen: React.FC = () => {
 
   const renderResumeCard = (resume: Resume) => (
     <MyTouchableOpacity
+      onPress={() =>
+        navigation.navigate("CandidateScreen", { resumeId: resume.id })
+      }
       key={resume.id}
       className="bg-white rounded-xl p-4 mb-4 flex-row items-center"
     >
@@ -103,8 +107,8 @@ const InnerVacancyScreen: React.FC = () => {
 
   return (
     <Layout isHR isHeader isBack isBottomTab isScroll>
-      <View className="flex-1 w-full">
-        <View className="p-4">
+      <View className="mt-4 w-full">
+        <View className="px-4">
           <Text className="text-2xl font-bold text-text mb-2">
             {mockVacancy.title}
           </Text>

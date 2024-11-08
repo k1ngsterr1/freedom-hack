@@ -1,4 +1,5 @@
 import AddVacancyScreen from "@app/screens/AddVacancyScreen/add-vacancy-screen";
+import CandidateScreen from "@app/screens/CandidateScreen/candidate-screen";
 import { HomeScreen } from "@app/screens/HomeScreen/home-screen";
 import HRProfileScreen from "@app/screens/HRProfileScreen/HR-Profile-Screen";
 import InnerVacancyScreen from "@app/screens/InnerVacancyScreen/inner-vacancy-screen";
@@ -20,5 +21,6 @@ export const HRStack = () => (
     <Stack.Screen name="HRProfile" component={HRProfileScreen} />
     <Stack.Screen name="AddVacancy" component={AddVacancyScreen} />
     <Stack.Screen name="InnerVacancy" component={InnerVacancyScreen} />
+    <Stack.Screen name="CandidateScreen" component={CandidateScreen} />
   </Stack.Navigator>
 );

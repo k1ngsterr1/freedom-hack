@@ -66,8 +66,8 @@ export const Layout: React.FC<ILayout> = ({
             </View>
           )}
 
-          <View className="flex flex-col items-end">
-            <Text className="text-text text-bold text-2xl">
+          <View className="flex flex-col items-end mt-4">
+            <Text className="text-text text-bold text-xl">
               {isHR ? "HR панель" : "Добрый день!"}
             </Text>
             <Text className="text-primary text-base">Ruslan Makhmatov</Text>
@@ -75,9 +75,9 @@ export const Layout: React.FC<ILayout> = ({
         </View>
       )}
       <View
-        className={`flex h-[81vh] flex-col items-center justify-center w-[95%] m-auto ${
-          isScroll ? "mt-16" : ""
-        } ${isHR ? "mt-0" : ""} px-4 pt-3`}
+        className={`flex h-[81vh] flex-col m-auto ${isScroll ? "mt-8" : ""} ${
+          isHR ? "mt-0" : ""
+        } px-4 pt-3`}
       >
         {isScroll ? (
           <ScrollView
