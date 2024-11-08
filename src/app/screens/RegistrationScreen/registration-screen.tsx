@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
+import { View, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
@@ -31,19 +25,19 @@ export const RegistrationScreen = () => {
     <Layout isLogo>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex-1"
+        className="flex-1 w-full"
       >
-        <ScrollView
-          contentContainerStyle={{
+        <View
+          style={{
             width: "100%",
             flexGrow: 1,
             justifyContent: "center",
             padding: 5,
           }}
         >
-          <View className="w-full mt-32 rounded-3xl">
+          <View className="w-[320px] m-auto mt-32 rounded-3xl">
             <Text
-              className="text-text text-3xl text-center mb-8 w-[320px]"
+              className="w-full text-text text-3xl text-center mb-8 "
               weight="bold"
             >
               Регистрация в{" "}
@@ -63,7 +57,6 @@ export const RegistrationScreen = () => {
                 autoCapitalize="words"
               />
             </View>
-
             <View className="flex-row items-center border border-gray-200 rounded-xl mb-4 px-3">
               <Feather name="mail" size={16} color="#045433" className="mr-2" />
               <TextInput
@@ -76,7 +69,6 @@ export const RegistrationScreen = () => {
                 autoCapitalize="none"
               />
             </View>
-
             <View className="flex-row items-center border border-gray-200 rounded-xl mb-4 px-3">
               <Feather name="lock" size={16} color="#045433" className="mr-2" />
               <TextInput
@@ -128,20 +120,19 @@ export const RegistrationScreen = () => {
               </Text>
             </MyTouchableOpacity>
           </View>
-
-          <View className="flex-row justify-center mt-5">
-            <Text className="text-text text-base">Уже есть аккаунт? </Text>
-            <MyTouchableOpacity
-              onPress={() => {
-                navigation.navigate("Login" as never);
-              }}
-            >
-              <Text className="text-primary text-base" weight="bold">
-                Войти
-              </Text>
-            </MyTouchableOpacity>
-          </View>
-        </ScrollView>
+        </View>
+        <View className="flex-row justify-center mt-4">
+          <Text className="text-text text-base">Уже есть аккаунт? </Text>
+          <MyTouchableOpacity
+            onPress={() => {
+              navigation.navigate("Login" as never);
+            }}
+          >
+            <Text className="text-primary text-base" weight="bold">
+              Войти
+            </Text>
+          </MyTouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </Layout>
   );
