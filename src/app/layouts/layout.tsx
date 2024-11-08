@@ -6,6 +6,7 @@ import Text from "@shared/ui/Text/text";
 import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 
 interface ILayout {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ interface ILayout {
   isBottomTab?: boolean;
   isScroll?: boolean;
   isHR?: boolean;
+  isChat?: boolean;
   isBack?: boolean; // New prop for displaying back button
 }
 
@@ -40,9 +42,10 @@ export const Layout: React.FC<ILayout> = ({
   isScroll = false,
   isHR = false,
   isBack = false,
+  isChat = false,
 }) => {
-  const { isOpen } = useOpenCloseStore();
   const navigation = useNavigation();
+  const { isOpen } = useOpenCloseStore();
 
   return (
     <SafeAreaView className="flex-1">
@@ -54,7 +57,7 @@ export const Layout: React.FC<ILayout> = ({
         )}
       </View>
       {isHeader && (
-        <View className="w-[90%] m-auto flex flex-row items-center justify-between">
+        <View className="w-[90%]  m-auto flex flex-row items-center justify-between">
           {isBack && (
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Feather name="chevron-left" size={24} color="#045433" />
@@ -65,19 +68,28 @@ export const Layout: React.FC<ILayout> = ({
               <Text className="text-white text-xl">F</Text>
             </View>
           )}
-
-          <View className="flex flex-col items-end mt-4">
-            <Text className="text-text text-bold text-xl">
-              {isHR ? "HR панель" : "Добрый день!"}
+          <View className="flex flex-col items-end">
+            <Text className="text-text text-bold text-2xl">
+              {isChat ? (
+                <MyTouchableOpacity onPress={() => console.log("LOL")}>
+                  <Feather name="message-circle" size={32} color="#045433" />
+                </MyTouchableOpacity>
+              ) : isHR ? (
+                "HR панель"
+              ) : (
+                "Добрый день!"
+              )}
             </Text>
-            <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+            {!isChat && (
+              <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+            )}
           </View>
         </View>
       )}
       <View
-        className={`flex h-[81vh] flex-col m-auto ${isScroll ? "mt-8" : ""} ${
-          isHR ? "mt-0" : ""
-        } px-4 pt-3`}
+        className={`w-full  flex h-[81vh] flex-col m-auto ${
+          isScroll ? "mt-8" : ""
+        } ${isHR ? "mt-0" : ""} px-4 pt-3`}
       >
         {isScroll ? (
           <ScrollView
