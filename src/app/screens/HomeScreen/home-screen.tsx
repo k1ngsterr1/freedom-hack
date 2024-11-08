@@ -22,7 +22,7 @@ export const HomeScreen = () => {
   const toggleOpenClose = useOpenCloseStore((state) => state.toggleOpenClose);
 
   return (
-    <Layout isBottomTab isHeader>
+    <Layout isBottomTab isHeader isScroll>
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-3xl  mb-4 text-text" weight="bold">
           Рекомеднации
