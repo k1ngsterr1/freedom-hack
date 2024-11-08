@@ -39,6 +39,17 @@ export const Layout: React.FC<ILayout> = ({
             </Text>
           )}
         </View>
+        {isHeader && (
+          <View className="w-[90%] m-auto flex flex-row items-center justify-between">
+            <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
+              <Text className="text-white text-xl">F</Text>
+            </View>
+            <View className="flex flex-col items-end">
+              <Text className="text-text text-bold text-2xl">Добрый день!</Text>
+              <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+            </View>
+          </View>
+        )}
         <View className="flex h-[81vh]  flex-col items-center justify-center w-[95%] m-auto px-4 ">
           {children}
           {isBottomTab && <BottomTab />}

@@ -15,7 +15,7 @@ import { UserTypeSelector } from "@features/ui/UserTypeSelector/user-type-select
 
 export const HomeScreen = () => {
   return (
-    <Layout isBottomTab>
+    <Layout isBottomTab isHeader>
       <></>
     </Layout>
   );

@@ -103,7 +103,7 @@ export const BottomTab: React.FC = () => {
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.1,
           shadowRadius: 6,
-          elevation: 8, // For Android shadow
+          elevation: 8,
         },
       ]}
     >
