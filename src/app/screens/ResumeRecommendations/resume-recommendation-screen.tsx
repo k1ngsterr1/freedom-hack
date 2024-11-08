@@ -134,7 +134,7 @@ export const ResumeRecommendationScreen: React.FC = () => {
 
   return (
     <Layout isHR isHeader isBack>
-      <View className="flex-1 w-full p-4">
+      <View className="flex-1 w-full mt-8">
         <Text className="text-2xl font-bold text-text mb-4">
           Рекомендации резюме
         </Text>

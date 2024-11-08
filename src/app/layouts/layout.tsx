@@ -6,6 +6,8 @@ import Text from "@shared/ui/Text/text";
 import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { Feather } from "@expo/vector-icons";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 interface ILayout {
   children: React.ReactNode;
@@ -43,6 +45,7 @@ export const Layout: React.FC<ILayout> = ({
   isBack = false,
   isChat = false, // Default value for isChat
 }) => {
+  const navigation = useNavigation();
   const { isOpen } = useOpenCloseStore();
 
   return (
@@ -56,9 +59,15 @@ export const Layout: React.FC<ILayout> = ({
       </View>
       {isHeader && (
         <View className="w-[90%] m-auto flex flex-row items-center justify-between">
-          <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
-            <Text className="text-white text-xl">F</Text>
-          </View>
+          {isBack ? (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Feather name="chevron-left" size={32} color="#045433" />
+            </TouchableOpacity>
+          ) : (
+            <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
+              <Text className="text-white text-xl">F</Text>
+            </View>
+          )}
           <View className="flex flex-col items-end">
             <Text className="text-text text-bold text-2xl">
               {isChat ? (

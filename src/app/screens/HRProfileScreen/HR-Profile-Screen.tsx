@@ -61,6 +61,10 @@ const HRProfileScreen: React.FC = () => {
     navigation.navigate("InnerVacancy" as never); // Navigate to the Login screen
   };
 
+  const handleAllVacancies = () => {
+    navigation.navigate("AllVacancies" as never); // Navigate to the Login screen
+  };
+
   return (
     <Layout isScroll isHeader isHR isChat>
       <View className="w-full mt-2">
@@ -95,10 +99,15 @@ const HRProfileScreen: React.FC = () => {
         </View>
 
         <View className="mb-6">
-          <View className="w-full text-">
-            <Text className="text-xl font-bold text-text mb-4" weight="bold">
+          <View className="w-full flex flex-row items-center justify-between mb-4">
+            <Text className="text-xl font-bold text-text " weight="bold">
               Ваши вакансии
             </Text>
+            <MyTouchableOpacity onPress={handleAllVacancies}>
+              <Text className="text-primary" weight="regular">
+                Все вакансии
+              </Text>
+            </MyTouchableOpacity>
           </View>
           {vacancies.map((vacancy) => (
             <MyTouchableOpacity
