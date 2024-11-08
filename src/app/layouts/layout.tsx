@@ -29,12 +29,16 @@ export const Layout: React.FC<ILayout> = ({
     <SafeAreaView className="flex-1">
       <ScrollView
         contentContainerStyle={{ paddingBottom: isTab ? 80 : 0 }}
-        className="flex-1 bg-white"
+        className="flex-1 bg-white "
       >
         <View className="w-full flex items-center justify-center mt-12">
-          {isLogo && <Text className="text-dark text-xl"></Text>}
+          {isLogo && (
+            <Text className="text-text text-xl" weight="regular">
+              Freedom <Text className="text-primary">Hire</Text>
+            </Text>
+          )}
         </View>
-        <View className="flex flex-col items-center justify-center  px-4">
+        <View className="flex flex-col items-center justify-center w-[95%] m-auto px-4">
           {children}
           {isBottomTab && <></>}
         </View>

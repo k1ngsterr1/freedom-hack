@@ -19,19 +19,19 @@ interface CustomTextProps extends RNTextProps {
   weight?: FontWeight;
 }
 
-const openSansFontFamilyMap: Record<FontWeight, string> = {
-  regular: "OpenSans-Regular",
-  bold: "OpenSans-Bold",
-  extraBold: "OpenSans-ExtraBold",
-  italic: "OpenSans-Italic",
-  light: "OpenSans-Light",
-  medium: "OpenSans-Medium",
-  semiBold: "OpenSans-SemiBold",
-  boldItalic: "OpenSans-BoldItalic",
-  extraBoldItalic: "OpenSans-ExtraBoldItalic",
-  lightItalic: "OpenSans-LightItalic",
-  mediumItalic: "OpenSans-MediumItalic",
-  semiBoldItalic: "OpenSans-SemiBoldItalic",
+const fontFamilyMap: Record<FontWeight, string> = {
+  regular: "SF-Pro-Display-Regular",
+  bold: "SF-Pro-Display-Bold",
+  extraBold: "SF-Pro-Display-Heavy",
+  italic: "SF-Pro-Display-RegularItalic",
+  light: "SF-Pro-Display-Light",
+  medium: "SF-Pro-Display-Medium",
+  semiBold: "SF-Pro-Display-Semibold",
+  boldItalic: "SF-Pro-Display-BoldItalic",
+  extraBoldItalic: "SF-Pro-Display-BlackItalic",
+  lightItalic: "SF-Pro-Display-LightItalic",
+  mediumItalic: "SF-Pro-Display-MediumItalic",
+  semiBoldItalic: "SF-Pro-Display-SemiboldItalic",
 };
 
 const Text: React.FC<CustomTextProps> = ({
@@ -39,7 +39,7 @@ const Text: React.FC<CustomTextProps> = ({
   weight = "regular",
   ...props
 }) => {
-  const fontFamily = openSansFontFamilyMap[weight];
+  const fontFamily = fontFamilyMap[weight];
 
   return <RNText style={[{ fontFamily }, style]} {...props} />;
 };

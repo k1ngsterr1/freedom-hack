@@ -1,3 +1,5 @@
+import { LoginScreen } from "@app/screens/LoginScreen/login-screen";
+import { RegistrationScreen } from "@app/screens/RegistrationScreen/registration-screen";
 import { StartScreen } from "@app/screens/StartScreen/start-screen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -11,5 +13,7 @@ export const AuthStack = () => (
     initialRouteName="Start"
   >
     <Stack.Screen name="Start" component={StartScreen} />
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Registration" component={RegistrationScreen} />
   </Stack.Navigator>
 );
