@@ -75,7 +75,7 @@ const InnerVacancyScreen: React.FC = () => {
           key={index}
           className="bg-primary bg-opacity-20 rounded-full px-3 py-1 mr-2 mb-2"
         >
-          <Text className="text-primary">{skill}</Text>
+          <Text className="text-white">{skill}</Text>
         </View>
       ))}
     </View>
@@ -98,7 +98,7 @@ const InnerVacancyScreen: React.FC = () => {
         <Text className="text-sm text-secondary">{resume.position}</Text>
       </View>
       <View className="bg-primary bg-opacity-20 rounded-full px-3 py-1">
-        <Text className="text-primary font-semibold">
+        <Text className="text-white font-semibold">
           {resume.matchPercentage}% match
         </Text>
       </View>
