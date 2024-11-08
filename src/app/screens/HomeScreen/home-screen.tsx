@@ -25,6 +25,22 @@ export const HomeScreen = () => {
         salary="120,000 - 180,000 ₽"
         logoUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL1oD3nncXjZG556ZfoYW1u3rUd0XH8hG3ng&s"
       />
+      <VacancyCard
+        onPress={() => console.log("lol")}
+        title="Frontend Developer"
+        company="TechCorp"
+        location="Москва, Россия"
+        salary="120,000 - 180,000 ₽"
+        logoUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL1oD3nncXjZG556ZfoYW1u3rUd0XH8hG3ng&s"
+      />
+      <VacancyCard
+        onPress={() => console.log("lol")}
+        title="Frontend Developer"
+        company="TechCorp"
+        location="Москва, Россия"
+        salary="120,000 - 180,000 ₽"
+        logoUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL1oD3nncXjZG556ZfoYW1u3rUd0XH8hG3ng&s"
+      />
     </Layout>
   );
 };

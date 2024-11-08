@@ -89,7 +89,7 @@ export const BottomTab: React.FC = () => {
         tabAnimation,
         {
           position: "absolute",
-          bottom: Platform.OS === "android" ? 16 : 0,
+          bottom: Platform.OS === "android" ? 16 : 16,
           width: "100%",
           alignSelf: "center",
           backgroundColor: "#f8f8f8",

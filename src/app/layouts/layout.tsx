@@ -28,33 +28,37 @@ export const Layout: React.FC<ILayout> = ({
 }) => {
   return (
     <SafeAreaView className="flex-1">
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: isTab ? 80 : 0 }}
-        className="flex-1 bg-white h-[100vh]  "
-      >
-        <View className="w-full flex items-center justify-center mt-12">
-          {isLogo && (
-            <Text className="text-text text-xl" weight="regular">
-              Freedom <Text className="text-primary">Hire</Text>
-            </Text>
-          )}
-        </View>
-        {isHeader && (
-          <View className="w-[90%] m-auto flex flex-row items-center justify-between">
-            <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
-              <Text className="text-white text-xl">F</Text>
-            </View>
-            <View className="flex flex-col items-end">
-              <Text className="text-text text-bold text-2xl">Добрый день!</Text>
-              <Text className="text-primary text-base">Ruslan Makhmatov</Text>
-            </View>
-          </View>
+      <View className="w-full flex items-center justify-center mt-12">
+        {isLogo && (
+          <Text className="text-text text-xl" weight="regular">
+            Freedom <Text className="text-primary">Hire</Text>
+          </Text>
         )}
-        <View className="flex h-[81vh]  flex-col items-center justify-center w-[95%] m-auto px-4 ">
-          {children}
-          {isBottomTab && <BottomTab />}
+      </View>
+      {isHeader && (
+        <View className="w-[90%] m-auto flex flex-row items-center justify-between">
+          <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
+            <Text className="text-white text-xl">F</Text>
+          </View>
+          <View className="flex flex-col items-end">
+            <Text className="text-text text-bold text-2xl">Добрый день!</Text>
+            <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+          </View>
         </View>
-      </ScrollView>
+      )}
+      <View className="flex h-[81vh] bo flex-col items-center justify-center w-[95%] m-auto mt-16 px-4 pt-3">
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: isTab ? 80 : 0,
+            flexGrow: 1, // Ensures the ScrollView grows with the content
+          }}
+          style={{ width: "100%" }} // Ensures the ScrollView takes full width
+          showsVerticalScrollIndicator={false} // Optional: hides the scroll indicator for a cleaner look
+        >
+          {children}
+        </ScrollView>
+        {isBottomTab && <BottomTab />}
+      </View>
     </SafeAreaView>
   );
 };
