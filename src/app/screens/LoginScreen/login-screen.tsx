@@ -16,6 +16,10 @@ export const LoginScreen = () => {
     navigation.navigate("Login" as never); // Navigate to the Login screen
   };
 
+  const handleHome = () => {
+    navigation.navigate("Home" as never); // Navigate to the Login screen
+  };
+
   const handleRegistration = () => {
     navigation.navigate("Registration" as never); // Navigate to the Login screen
   };
@@ -68,7 +72,7 @@ export const LoginScreen = () => {
 
           <MyTouchableOpacity
             className="w-full h-[50px] items-center justify-center rounded-full bg-primary mt-6"
-            onPress={handleLogin}
+            onPress={handleHome}
           >
             <Text className="text-lg text-white" weight="bold">
               Войти

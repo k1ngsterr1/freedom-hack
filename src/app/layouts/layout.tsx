@@ -1,3 +1,4 @@
+import { BottomTab } from "@features/ui/BottomTab/bottom-tab";
 import Text from "@shared/ui/Text/text";
 import React from "react";
 import {
@@ -29,7 +30,7 @@ export const Layout: React.FC<ILayout> = ({
     <SafeAreaView className="flex-1">
       <ScrollView
         contentContainerStyle={{ paddingBottom: isTab ? 80 : 0 }}
-        className="flex-1 bg-white "
+        className="flex-1 bg-white h-[100vh]  "
       >
         <View className="w-full flex items-center justify-center mt-12">
           {isLogo && (
@@ -38,9 +39,9 @@ export const Layout: React.FC<ILayout> = ({
             </Text>
           )}
         </View>
-        <View className="flex flex-col items-center justify-center w-[95%] m-auto px-4">
+        <View className="flex h-[81vh]  flex-col items-center justify-center w-[95%] m-auto px-4 ">
           {children}
-          {isBottomTab && <></>}
+          {isBottomTab && <BottomTab />}
         </View>
       </ScrollView>
     </SafeAreaView>

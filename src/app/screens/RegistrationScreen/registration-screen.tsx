@@ -19,7 +19,6 @@ export const RegistrationScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [userType, setUserType] = useState("Работник");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigation = useNavigation();
 
@@ -52,8 +51,7 @@ export const RegistrationScreen = () => {
                 Freedom Hire
               </Text>
             </Text>
-            <UserTypeSelector selectedType={userType} onSelect={setUserType} />
-
+            <UserTypeSelector />
             <View className="flex-row items-center border border-gray-200 rounded-xl mb-4 px-3">
               <Feather name="user" size={16} color="#045433" className="mr-2" />
               <TextInput
