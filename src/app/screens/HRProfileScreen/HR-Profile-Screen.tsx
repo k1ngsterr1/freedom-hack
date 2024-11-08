@@ -62,7 +62,7 @@ const HRProfileScreen: React.FC = () => {
   };
 
   return (
-    <Layout isScroll isHeader isHR>
+    <Layout isScroll isHeader isHR isChat>
       <View className="w-full mt-2">
         <View className="flex-row items-center mb-6">
           <Image
