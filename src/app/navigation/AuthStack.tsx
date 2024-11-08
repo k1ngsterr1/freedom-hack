@@ -2,6 +2,7 @@ import { HomeScreen } from "@app/screens/HomeScreen/home-screen";
 import { LoginScreen } from "@app/screens/LoginScreen/login-screen";
 import { RegistrationScreen } from "@app/screens/RegistrationScreen/registration-screen";
 import { StartScreen } from "@app/screens/StartScreen/start-screen";
+import { TestScreen } from "@app/screens/TestScreen/test-screen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // screens
@@ -17,5 +18,6 @@ export const AuthStack = () => (
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Registration" component={RegistrationScreen} />
     <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="Test" component={TestScreen} />
   </Stack.Navigator>
 );

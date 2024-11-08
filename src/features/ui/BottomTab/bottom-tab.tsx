@@ -117,13 +117,13 @@ export const BottomTab: React.FC = () => {
         iconName="search"
         page="love"
         screen="Quiz"
-        isActive={activePage === "love"}
+        isActive={activePage === "search"}
       />
       <NavigationButton
         iconName="file-text"
-        page="games"
-        screen="Games"
-        isActive={activePage === "games"}
+        page="test"
+        screen="Test"
+        isActive={activePage === "test"}
       />
       <NavigationButton
         iconName="settings"

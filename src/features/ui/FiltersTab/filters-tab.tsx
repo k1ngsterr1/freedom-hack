@@ -8,6 +8,7 @@ import Animated, {
   Easing,
   useAnimatedGestureHandler,
   runOnJS,
+  interpolate,
 } from "react-native-reanimated";
 import {
   PanGestureHandler,
@@ -24,19 +25,56 @@ interface FilterOption {
 
 interface FiltersTabsProps {
   options: FilterOption[];
-  onFilterChange: (selectedFilters: string[]) => void;
+  onFilterChange: (
+    selectedFilters: string[],
+    salaryRange: { min: number; max: number }
+  ) => void;
 }
 
 const { width, height } = Dimensions.get("window");
 const SWIPE_THRESHOLD = 50;
+const SLIDER_WIDTH = width - 32;
+const THUMB_SIZE = 24;
+const MIN_SALARY = 0;
+const MAX_SALARY = 200000;
+
+const Thumb: React.FC<{ position: Animated.SharedValue<number> }> = ({
+  position,
+}) => {
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: position.value }],
+  }));
+
+  return (
+    <Animated.View
+      style={[
+        {
+          width: THUMB_SIZE,
+          height: THUMB_SIZE,
+          borderRadius: THUMB_SIZE / 2,
+          backgroundColor: "#4FB84F",
+          position: "absolute",
+          top: -THUMB_SIZE / 2 + 2,
+        },
+        animatedStyle,
+      ]}
+    />
+  );
+};
 
 export const FiltersTabs: React.FC<FiltersTabsProps> = ({
   options,
   onFilterChange,
 }) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [salaryRange, setSalaryRange] = useState({
+    min: MIN_SALARY,
+    max: MAX_SALARY,
+  });
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(0);
+  const leftThumbPosition = useSharedValue(0);
+  const rightThumbPosition = useSharedValue(SLIDER_WIDTH);
 
   const isOpen = useOpenCloseStore((state) => state.isOpen);
   const toggleOpenClose = useOpenCloseStore((state) => state.toggleOpenClose);
@@ -86,10 +124,55 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
       const newFilters = prev.includes(filterId)
         ? prev.filter((id) => id !== filterId)
         : [...prev, filterId];
-      onFilterChange(newFilters);
+      onFilterChange(newFilters, salaryRange);
       return newFilters;
     });
   };
+
+  const updateSalaryRange = (left: number, right: number) => {
+    const newMin = Math.round(
+      (left / SLIDER_WIDTH) * (MAX_SALARY - MIN_SALARY) + MIN_SALARY
+    );
+    const newMax = Math.round(
+      (right / SLIDER_WIDTH) * (MAX_SALARY - MIN_SALARY) + MIN_SALARY
+    );
+    setSalaryRange({ min: newMin, max: newMax });
+    onFilterChange(selectedFilters, { min: newMin, max: newMax });
+  };
+
+  const leftThumbHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx: any) => {
+      ctx.startX = leftThumbPosition.value;
+    },
+    onActive: (event, ctx) => {
+      const newPosition = ctx.startX + event.translationX;
+      leftThumbPosition.value = Math.max(
+        0,
+        Math.min(newPosition, rightThumbPosition.value - THUMB_SIZE)
+      );
+      runOnJS(updateSalaryRange)(
+        leftThumbPosition.value,
+        rightThumbPosition.value
+      );
+    },
+  });
+
+  const rightThumbHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx: any) => {
+      ctx.startX = rightThumbPosition.value;
+    },
+    onActive: (event, ctx) => {
+      const newPosition = ctx.startX + event.translationX;
+      rightThumbPosition.value = Math.min(
+        SLIDER_WIDTH,
+        Math.max(newPosition, leftThumbPosition.value + THUMB_SIZE)
+      );
+      runOnJS(updateSalaryRange)(
+        leftThumbPosition.value,
+        rightThumbPosition.value
+      );
+    },
+  });
 
   return (
     <PanGestureHandler onGestureEvent={gestureHandler}>
@@ -102,6 +185,40 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
           <Text className="text-text text-lg font-bold">Фильтры</Text>
         </View>
         <ScrollView className="p-4 max-h-80">
+          <View className="mb-6">
+            <Text className="text-text text-base font-semibold mb-2">
+              Диапазон зарплаты
+            </Text>
+            <View className="h-1 bg-gray-200 rounded-full">
+              <Animated.View
+                className="h-1 bg-primary rounded-full"
+                style={[
+                  { left: leftThumbPosition.value },
+                  {
+                    width: interpolate(
+                      rightThumbPosition.value - leftThumbPosition.value,
+                      [0, SLIDER_WIDTH],
+                      [0, SLIDER_WIDTH]
+                    ),
+                  },
+                ]}
+              />
+            </View>
+            <PanGestureHandler onGestureEvent={leftThumbHandler}>
+              <Animated.View>
+                <Thumb position={leftThumbPosition} />
+              </Animated.View>
+            </PanGestureHandler>
+            <PanGestureHandler onGestureEvent={rightThumbHandler}>
+              <Animated.View>
+                <Thumb position={rightThumbPosition} />
+              </Animated.View>
+            </PanGestureHandler>
+            <View className="flex-row justify-between mt-4">
+              <Text className="text-text text-sm">{salaryRange.min} ₽</Text>
+              <Text className="text-text text-sm">{salaryRange.max} ₽</Text>
+            </View>
+          </View>
           {options.map((option) => (
             <MyTouchableOpacity
               key={option.id}

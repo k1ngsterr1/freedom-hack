@@ -45,7 +45,7 @@ export const VacancyCard: React.FC<VacancyCardProps> = ({
       </View>
       <View className="flex-row items-center mb-2">
         <Feather name="map-pin" size={16} color="#045433" className="mr-2" />
-        <Text className="text-text text-sm" weight="regular">
+        <Text className="text-text text-sm ml-1" weight="regular">
           {location}
         </Text>
       </View>

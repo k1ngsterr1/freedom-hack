@@ -23,9 +23,16 @@ export const HomeScreen = () => {
 
   return (
     <Layout isBottomTab isHeader>
-      <Text className="text-3xl  mb-4 text-text" weight="bold">
-        Рекомеднации
-      </Text>
+      <View className="flex flex-row justify-between items-center w-full">
+        <Text className="text-3xl  mb-4 text-text" weight="bold">
+          Рекомеднации
+        </Text>
+        <MyTouchableOpacity className="text-primary">
+          <Text className="text-base  mb-4 text-primary" weight="light">
+            Смотреть все
+          </Text>
+        </MyTouchableOpacity>
+      </View>
       <CompactHorizontalVacancySwiper vacancies={vacancies} />
       <View className="flex flex-row justify-between items-start w-full">
         <Text className="text-3xl  mb-4 text-text" weight="bold">
