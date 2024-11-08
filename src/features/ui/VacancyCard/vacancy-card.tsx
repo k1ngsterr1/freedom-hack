@@ -24,7 +24,7 @@ export const VacancyCard: React.FC<VacancyCardProps> = ({
   return (
     <MyTouchableOpacity
       onPress={onPress}
-      className="bg-white rounded-xl p-4 mb-4 shadow-md"
+      className="bg-white rounded-xl p-4 mb-4 shadow-md w-full"
       accessibilityRole="button"
       accessibilityLabel={`Vacancy for ${title} at ${company}`}
     >
@@ -45,7 +45,7 @@ export const VacancyCard: React.FC<VacancyCardProps> = ({
       </View>
       <View className="flex-row items-center mb-2">
         <Feather name="map-pin" size={16} color="#045433" className="mr-2" />
-        <Text className="text-text text-sm" weight="regular">
+        <Text className="text-text text-sm ml-1" weight="regular">
           {location}
         </Text>
       </View>
@@ -62,7 +62,7 @@ export const VacancyCard: React.FC<VacancyCardProps> = ({
       </View>
       <View className="mt-3 border-t border-gray-200 pt-3">
         <MyTouchableOpacity
-          className="bg-primary rounded-full py-2 px-4 self-start"
+          className="bg-primary rounded-full py-2 px-4 w-full items-center"
           onPress={onPress}
         >
           <Text className="text-white text-sm" weight="bold">

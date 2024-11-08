@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
-import { useUserStore } from "src/entites/model/user-type-store";
+import { useUserStore } from "src/entites/UserType/model/user-type-store";
 
 export const UserTypeSelector = () => {
   const selectedType = useUserStore((state) => state.selectedType); // Получаем выбранный тип из хранилища
