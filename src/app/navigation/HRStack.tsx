@@ -1,14 +1,9 @@
 import AddVacancyScreen from "@app/screens/AddVacancyScreen/add-vacancy-screen";
 import { AllScreenVacancies } from "@app/screens/AllVacanciesScreen/all-screen-vacancies";
 import CandidateScreen from "@app/screens/CandidateScreen/candidate-screen";
-import { HomeScreen } from "@app/screens/HomeScreen/home-screen";
 import HRProfileScreen from "@app/screens/HRProfileScreen/HR-Profile-Screen";
 import InnerVacancyScreen from "@app/screens/InnerVacancyScreen/inner-vacancy-screen";
-import { LoginScreen } from "@app/screens/LoginScreen/login-screen";
-import { RegistrationScreen } from "@app/screens/RegistrationScreen/registration-screen";
 import { ResumeRecommendationScreen } from "@app/screens/ResumeRecommendations/resume-recommendation-screen";
-import { StartScreen } from "@app/screens/StartScreen/start-screen";
-import { TestScreen } from "@app/screens/TestScreen/test-screen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // screens

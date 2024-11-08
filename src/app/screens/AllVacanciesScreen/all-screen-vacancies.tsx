@@ -4,6 +4,7 @@ import { Layout } from "@app/layouts/layout";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { HRVacancyCard } from "@features/ui/HRVacancyCard/hr-vacancy-card";
+import { useNavigation } from "expo-router";
 
 interface Vacancy {
   id: number;
@@ -61,6 +62,8 @@ export const AllScreenVacancies: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredVacancies, setFilteredVacancies] = useState(mockVacancies);
 
+  const navigation = useNavigation();
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     const filtered = mockVacancies.filter(
@@ -69,6 +72,10 @@ export const AllScreenVacancies: React.FC = () => {
         vacancy.company.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredVacancies(filtered);
+  };
+
+  const handleInnerVacancy = () => {
+    navigation.navigate("InnerVacancy" as never); // Navigate to the Login screen
   };
 
   return (
@@ -96,7 +103,7 @@ export const AllScreenVacancies: React.FC = () => {
               company={vacancy.company}
               location={vacancy.location}
               salary={vacancy.salary}
-              onPress={() => console.log(`Vacancy ${vacancy.id} pressed`)}
+              onPress={handleInnerVacancy}
             />
           ))}
         </ScrollView>

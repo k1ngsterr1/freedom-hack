@@ -17,7 +17,12 @@ export const RegistrationScreen = () => {
   const navigation = useNavigation();
 
   const handleRegistration = () => {
-    // Implement your registration logic here
+    navigation.navigate("CVScreen" as never);
+    console.log("Registration attempted with:", fullName, email, password);
+  };
+
+  const handleCV = () => {
+    navigation.navigate("CVScreen" as never);
     console.log("Registration attempted with:", fullName, email, password);
   };
 

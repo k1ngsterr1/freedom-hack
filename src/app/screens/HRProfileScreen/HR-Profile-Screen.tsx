@@ -103,6 +103,7 @@ const HRProfileScreen: React.FC = () => {
             <Text className="text-xl font-bold text-text " weight="bold">
               Ваши вакансии
             </Text>
+            {/* NEED TO FIX */}
             <MyTouchableOpacity onPress={handleAllVacancies}>
               <Text className="text-primary" weight="regular">
                 Все вакансии
