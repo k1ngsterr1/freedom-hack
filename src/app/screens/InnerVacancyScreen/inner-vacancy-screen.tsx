@@ -4,6 +4,7 @@ import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 interface Vacancy {
   id: number;
@@ -67,6 +68,8 @@ const mockResumes: Resume[] = [
 ];
 
 const InnerVacancyScreen: React.FC = () => {
+  const navigation = useNavigation(); // Get the navigation object
+
   const renderSkillTags = (skills: string[]) => (
     <View className="flex-row flex-wrap mt-2">
       {skills.map((skill, index) => (
@@ -74,7 +77,7 @@ const InnerVacancyScreen: React.FC = () => {
           key={index}
           className="bg-primary bg-opacity-20 rounded-full px-3 py-1 mr-2 mb-2"
         >
-          <Text className="text-primary">{skill}</Text>
+          <Text className="text-white">{skill}</Text>
         </View>
       ))}
     </View>
@@ -94,15 +97,19 @@ const InnerVacancyScreen: React.FC = () => {
         <Text className="text-sm text-secondary">{resume.position}</Text>
       </View>
       <View className="bg-primary bg-opacity-20 rounded-full px-3 py-1">
-        <Text className="text-primary font-semibold">
+        <Text className="text-white font-semibold">
           {resume.matchPercentage}% match
         </Text>
       </View>
     </MyTouchableOpacity>
   );
 
+  const handlePress = () => {
+    navigation.navigate("Resume" as never);
+  };
+
   return (
-    <Layout isHR isHeader isBack isBottomTab isScroll>
+    <Layout isHR isHeader isBack isScroll>
       <View className="flex-1 w-full">
         <View className="p-4">
           <Text className="text-2xl font-bold text-text mb-2">
@@ -179,19 +186,23 @@ const InnerVacancyScreen: React.FC = () => {
           </View>
 
           <View className="mb-6">
-            <Text className="text-xl font-bold text-text mb-4">
-              Рекомендуемые резюме
-            </Text>
+            <View className="w-full flex flex-row items-center justify-between mb-4">
+              <Text className="text-xl font-bold text-text" weight="bold">
+                Рекомендуемые
+              </Text>
+              <MyTouchableOpacity onPress={handlePress}>
+                <Text className="text-primary" weight="regular">
+                  Смотреть все
+                </Text>
+              </MyTouchableOpacity>
+            </View>
             {mockResumes.map(renderResumeCard)}
           </View>
-
           <MyTouchableOpacity
-            className="bg-primary py-3 px-6 rounded-full items-center mb-8"
+            className="bg-primary py-4 px-6 rounded-full items-center mb-8"
             onPress={() => console.log("Edit vacancy")}
           >
-            <Text className="text-white font-semibold">
-              Редактировать вакансию
-            </Text>
+            <Text className="text-white text-lg">Редактировать вакансию</Text>
           </MyTouchableOpacity>
         </View>
       </View>

@@ -1,11 +1,11 @@
 import React from "react";
-import { SafeAreaView, View, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, View, ScrollView } from "react-native";
 import { BottomTab } from "@features/ui/BottomTab/bottom-tab";
 import { FiltersTabs } from "@features/ui/FiltersTab/filters-tab";
 import Text from "@shared/ui/Text/text";
 import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 
 interface ILayout {
   children: React.ReactNode;
@@ -15,7 +15,8 @@ interface ILayout {
   isBottomTab?: boolean;
   isScroll?: boolean;
   isHR?: boolean;
-  isBack?: boolean; // New prop for displaying back button
+  isBack?: boolean;
+  isChat?: boolean; // New prop for chat icon
 }
 
 interface FilterOption {
@@ -40,13 +41,13 @@ export const Layout: React.FC<ILayout> = ({
   isScroll = false,
   isHR = false,
   isBack = false,
+  isChat = false, // Default value for isChat
 }) => {
   const { isOpen } = useOpenCloseStore();
-  const navigation = useNavigation();
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="w-full flex items-center justify-center mt-4">
+      <View className="w-full flex items-center justify-center mt-12">
         {isLogo && (
           <Text className="text-text text-xl" weight="regular">
             Freedom <Text className="text-primary">Hire</Text>
@@ -55,29 +56,31 @@ export const Layout: React.FC<ILayout> = ({
       </View>
       {isHeader && (
         <View className="w-[90%] m-auto flex flex-row items-center justify-between">
-          {isBack && (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Feather name="chevron-left" size={24} color="#045433" />
-            </TouchableOpacity>
-          )}
-          {!isBack && (
-            <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
-              <Text className="text-white text-xl">F</Text>
-            </View>
-          )}
-
+          <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
+            <Text className="text-white text-xl">F</Text>
+          </View>
           <View className="flex flex-col items-end">
             <Text className="text-text text-bold text-2xl">
-              {isHR ? "HR панель" : "Добрый день!"}
+              {isChat ? (
+                <MyTouchableOpacity onPress={() => console.log("LOL")}>
+                  <Feather name="message-circle" size={32} color="#045433" />
+                </MyTouchableOpacity>
+              ) : isHR ? (
+                "HR панель"
+              ) : (
+                "Добрый день!"
+              )}
             </Text>
-            <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+            {!isChat && (
+              <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+            )}
           </View>
         </View>
       )}
       <View
         className={`flex h-[81vh] flex-col items-center justify-center w-[95%] m-auto ${
           isScroll ? "mt-16" : ""
-        } ${isHR ? "mt-0" : ""} px-4 pt-3`}
+        } px-4 pt-3`}
       >
         {isScroll ? (
           <ScrollView
