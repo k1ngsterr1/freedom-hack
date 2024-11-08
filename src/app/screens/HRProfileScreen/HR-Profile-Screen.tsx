@@ -57,6 +57,10 @@ const HRProfileScreen: React.FC = () => {
     navigation.navigate("AddVacancy" as never); // Navigate to the Login screen
   };
 
+  const handleInnerVacancy = () => {
+    navigation.navigate("InnerVacancy" as never); // Navigate to the Login screen
+  };
+
   return (
     <Layout isScroll isHeader isHR>
       <View className="w-full mt-2">
@@ -100,7 +104,7 @@ const HRProfileScreen: React.FC = () => {
             <MyTouchableOpacity
               key={vacancy.id}
               className="bg-white p-4 rounded-xl shadow-sm mb-3"
-              onPress={() => console.log(`Vacancy ${vacancy.id} pressed`)}
+              onPress={handleInnerVacancy}
             >
               <Text className="text-lg font-semibold text-text">
                 {vacancy.title}
