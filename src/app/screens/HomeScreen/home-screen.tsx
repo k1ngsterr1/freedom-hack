@@ -17,7 +17,7 @@ export const HomeScreen = () => {
     <Layout isBottomTab isHeader isScroll>
       <View className="flex flex-row justify-between items-center w-full">
         <Text className="text-3xl  mb-4 text-text" weight="bold">
-          Рекомеднации
+          Рекомендации
         </Text>
         <MyTouchableOpacity className="text-primary">
           <Text className="text-base  mb-4 text-primary" weight="light">

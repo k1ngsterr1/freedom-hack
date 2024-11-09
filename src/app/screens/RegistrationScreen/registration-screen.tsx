@@ -6,24 +6,28 @@ import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opaci
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { UserTypeSelector } from "@features/ui/UserTypeSelector/user-type-selector";
+import { useCreateAccount } from "@shared/lib/hooks/useCreateAccount";
 
 export const RegistrationScreen = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const {
+    fullName,
+    setFullName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    error,
+    registerAccount,
+  } = useCreateAccount();
   const navigation = useNavigation();
 
-  const handleRegistration = () => {
-    navigation.navigate("CVScreen" as never);
-    console.log("Registration attempted with:", fullName, email, password);
-  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleCV = () => {
-    navigation.navigate("CVScreen" as never);
-    console.log("Registration attempted with:", fullName, email, password);
+  const handleLoginNavigation = () => {
+    navigation.navigate("Login" as never);
   };
 
   return (
@@ -42,7 +46,7 @@ export const RegistrationScreen = () => {
         >
           <View className="w-[320px] m-auto mt-32 rounded-3xl">
             <Text
-              className="w-full text-text text-3xl text-center mb-8 "
+              className="w-full text-text text-3xl text-center mb-8"
               weight="bold"
             >
               Регистрация в{" "}
@@ -116,9 +120,14 @@ export const RegistrationScreen = () => {
               </MyTouchableOpacity>
             </View>
 
+            {/* Display error message */}
+            {error ? (
+              <Text className="text-red-500 text-center mb-4">{error}</Text>
+            ) : null}
+
             <MyTouchableOpacity
               className="w-full h-[50px] items-center justify-center rounded-full bg-primary mt-6"
-              onPress={handleRegistration}
+              onPress={registerAccount}
             >
               <Text className="text-lg text-white" weight="bold">
                 Зарегистрироваться
@@ -126,7 +135,7 @@ export const RegistrationScreen = () => {
             </MyTouchableOpacity>
           </View>
         </View>
-        <View className="flex-row justify-center mt-4">
+        <View className="flex-row justify-center mt-16">
           <Text className="text-text text-base">Уже есть аккаунт? </Text>
           <MyTouchableOpacity
             onPress={() => {

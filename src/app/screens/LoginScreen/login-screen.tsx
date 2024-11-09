@@ -5,23 +5,20 @@ import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
+import { useLogin } from "@shared/lib/hooks/useLogin";
 
 export const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login, setLogin, password, setPassword, error, loginFunction } =
+    useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    navigation.navigate("Login" as never); // Navigate to the Login screen
+  const handleHomeNavigation = () => {
+    navigation.navigate("Home" as never);
   };
 
-  const handleHome = () => {
-    navigation.navigate("Home" as never); // Navigate to the Login screen
-  };
-
-  const handleRegistration = () => {
-    navigation.navigate("Registration" as never); // Navigate to the Login screen
+  const handleRegistrationNavigation = () => {
+    navigation.navigate("Registration" as never);
   };
 
   return (
@@ -30,29 +27,28 @@ export const LoginScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1 justify-center p-5"
       >
-        <View className="mt-32 rounded-3xl ">
+        <View className="mt-32 rounded-3xl">
           <Text className="text-text text-3xl text-center mb-8" weight="bold">
             Войти в{" "}
             <Text className="text-primary" weight="bold">
               Freedom Hire
             </Text>
           </Text>
-
           <View className="flex-row items-center border border-gray-200 rounded-xl mb-4 px-3">
-            <Feather name="mail" size={16} color="#045433" className="mr-2" />
+            <Feather name="mail" size={16} color="#045433" />
             <TextInput
-              className="flex-1 h-12 text-text mb-[5px] ml-2 text-base "
+              className="flex-1 h-12 text-text mb-[5px] ml-2 text-base"
               placeholder="Электронная почта"
               placeholderTextColor="#6B7280"
-              value={email}
-              onChangeText={setEmail}
+              value={login}
+              onChangeText={setLogin}
               keyboardType="email-address"
               autoCapitalize="none"
             />
           </View>
 
           <View className="flex-row items-center border border-gray-200 rounded-xl mb-4 px-3">
-            <Feather name="lock" size={16} color="#045433" className="mr2" />
+            <Feather name="lock" size={16} color="#045433" />
             <TextInput
               className="flex-1 h-12 ml-2 mb-[5px] text-text text-base"
               placeholder="Пароль"
@@ -70,9 +66,13 @@ export const LoginScreen = () => {
             </MyTouchableOpacity>
           </View>
 
+          {error ? (
+            <Text className="text-red-500 text-center mb-4">{error}</Text>
+          ) : null}
+
           <MyTouchableOpacity
             className="w-full h-[50px] items-center justify-center rounded-full bg-primary mt-6"
-            onPress={handleHome}
+            onPress={handleHomeNavigation}
           >
             <Text className="text-lg text-white" weight="bold">
               Войти
@@ -93,7 +93,7 @@ export const LoginScreen = () => {
 
         <View className="flex-row justify-center mt-5">
           <Text className="text-text text-base">Нет аккаунта? </Text>
-          <MyTouchableOpacity onPress={handleRegistration}>
+          <MyTouchableOpacity onPress={handleRegistrationNavigation}>
             <Text className="text-primary text-base" weight="bold">
               Зарегистрироваться
             </Text>
