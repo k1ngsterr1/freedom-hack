@@ -5,6 +5,8 @@ import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opaci
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { axiosInstance } from "@shared/lib/hooks/useInterceptor";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 interface VacancyTextareaProps {
   description: string;
@@ -60,6 +62,7 @@ const AddVacancyScreen: React.FC = () => {
   });
 
   const [newSkill, setNewSkill] = useState({ hard: "", soft: "" });
+  const navigation = useNavigation();
 
   const handleInputChange = (field: keyof Vacancy, value: string) => {
     setVacancy((prev) => ({ ...prev, [field]: value }));
@@ -106,8 +109,17 @@ const AddVacancyScreen: React.FC = () => {
     try {
       const response = await axiosInstance.post("/vacancies/add", vacancy);
       console.log("Server response:", response.data);
+
+      // Extract the ID from the response and save it to AsyncStorage
+      const vacancyId = response.data.id;
+      await AsyncStorage.setItem("vacancyId", vacancyId.toString());
+
+      console.log("Vacancy ID saved to AsyncStorage:", vacancyId);
+      navigation.navigate("RecommendedVacancies" as never);
+
       Alert.alert("Success", "Vacancy added successfully!");
 
+      // Reset the vacancy form
       setVacancy({
         title: "",
         location: "",
@@ -121,7 +133,7 @@ const AddVacancyScreen: React.FC = () => {
         additional: [],
         contacts: [],
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error submitting vacancy:", error);
       console.log("Error details:", error.response?.data || error.message);
       Alert.alert("Error", "Failed to add vacancy. Please try again.");

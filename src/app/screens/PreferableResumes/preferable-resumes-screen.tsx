@@ -25,7 +25,7 @@ interface SearchResult {
 const mockResults: SearchResult[] = [
   {
     id: "1",
-    name: "Анна Смирнова",
+    name: "",
     position: "Frontend Developer",
     experience: 5,
     value: 85,
