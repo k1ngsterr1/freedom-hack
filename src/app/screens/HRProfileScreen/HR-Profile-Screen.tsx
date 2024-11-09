@@ -6,6 +6,7 @@ import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useUserData } from "@shared/lib/hooks/useUserData";
+import image from "../../../../assets/images/spark_logo.png";
 
 interface Vacancy {
   id: string;
@@ -99,12 +100,8 @@ const HRProfileScreen: React.FC = () => {
     <Layout isScroll isHeader isHR isNoMarginBottom>
       <View className="w-full mt-2">
         <View className="flex-row items-center mb-6">
-          <Image
-            source={{
-              uri: "https://randomuser.me/api/portraits/women/44.jpg",
-            }}
-            className="w-20 h-20 rounded-full mr-4"
-          />
+          <Image source={image} className="w-20 h-20 rounded-full mr-4" />
+
           <View>
             <Text className="text-2xl font-bold text-text">
               {userData?.username}

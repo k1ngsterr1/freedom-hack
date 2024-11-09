@@ -4,7 +4,7 @@ import { Layout } from "@app/layouts/layout";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { HRVacancyCard } from "@features/ui/HRVacancyCard/hr-vacancy-card";
-import { useNavigation } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 interface Vacancy {
   id: number;
@@ -79,7 +79,7 @@ export const AllScreenVacancies: React.FC = () => {
   };
 
   return (
-    <Layout isHeader isBottomTab isScroll>
+    <Layout isHeader isBack isChat isScroll>
       <View className="flex-1 w-full">
         <Text className="text-2xl font-bold text-text mb-4">All Vacancies</Text>
 

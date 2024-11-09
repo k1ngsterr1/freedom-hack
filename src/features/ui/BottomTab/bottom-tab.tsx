@@ -1,17 +1,19 @@
 import React from "react";
-import { View, TouchableOpacity, Platform } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { usePageStore } from "src/entites/pages/model/use-page-store";
 import { Feather } from "@expo/vector-icons";
 
 const AnimatedIcon = Animated.createAnimatedComponent(Feather);
 
 interface NavigationButtonProps {
-  iconName: React.ComponentProps<typeof Feather>["name"];
+  iconName: string;
   page: string;
   screen: string;
   isActive: boolean;
@@ -24,6 +26,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
   isActive,
 }) => {
   const navigation = useNavigation();
+  const { setActivePage } = usePageStore();
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -35,6 +38,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
   });
 
   const handlePress = () => {
+    setActivePage(page);
     navigation.navigate(screen as never);
     scale.value = withSpring(1.2, { stiffness: 300, damping: 20 }, () => {
       scale.value = withSpring(1);
@@ -45,9 +49,6 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
     <TouchableOpacity
       onPress={handlePress}
       className="items-center justify-center"
-      accessibilityRole="button"
-      accessibilityLabel={`Navigate to ${screen}`}
-      accessibilityState={{ selected: isActive }}
     >
       <Animated.View style={animatedStyle}>
         <AnimatedIcon
@@ -61,7 +62,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
 };
 
 export const BottomTab: React.FC = () => {
-  const [activePage, setActivePage] = React.useState("home");
+  const { activePage } = usePageStore();
   const translateY = useSharedValue(0);
 
   const tabAnimation = useAnimatedStyle(() => {
@@ -115,7 +116,7 @@ export const BottomTab: React.FC = () => {
       />
       <NavigationButton
         iconName="search"
-        page="love"
+        page="search"
         screen="Search"
         isActive={activePage === "search"}
       />

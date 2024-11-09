@@ -32,7 +32,7 @@ export const LoginScreen = () => {
     if (selectedType === "HR") {
       navigation.navigate("HRProfile" as never);
     } else if (selectedType) {
-      navigation.navigate("HomeScreen" as never);
+      navigation.navigate("Home" as never);
     }
   }, [isLogged]);
 
