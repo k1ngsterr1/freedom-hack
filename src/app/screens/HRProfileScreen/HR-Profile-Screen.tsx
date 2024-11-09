@@ -20,6 +20,33 @@ interface Stat {
   icon: React.ComponentProps<typeof Feather>["name"];
 }
 
+const Resumes = [
+  {
+    id: "1",
+    name: "Анна Смирнова",
+    position: "Frontend Developer",
+    experience: 5,
+    value: 85,
+    createdAt: new Date("2023-05-15"),
+  },
+  {
+    id: "2",
+    name: "Иван Петров",
+    position: "Backend Developer",
+    experience: 3,
+    value: 75,
+    createdAt: new Date("2023-05-10"),
+  },
+  {
+    id: "3",
+    name: "Мария Иванова",
+    position: "UX Designer",
+    experience: 7,
+    value: 90,
+    createdAt: new Date("2023-05-05"),
+  },
+];
+
 const vacancies: Vacancy[] = [
   {
     id: "1",
@@ -65,6 +92,10 @@ const HRProfileScreen: React.FC = () => {
     navigation.navigate("AllVacancies" as never); // Navigate to the Login screen
   };
 
+  const handlePreferableResumes = () => {
+    navigation.navigate("PreferableResumes" as never);
+  };
+
   return (
     <Layout isScroll isHeader isHR isChat>
       <View className="w-full mt-2">
@@ -98,12 +129,11 @@ const HRProfileScreen: React.FC = () => {
           ))}
         </View>
 
-        <View className="mb-6">
+        <View className="mb-6 flex flex-col">
           <View className="w-full flex flex-row items-center justify-between mb-4">
             <Text className="text-xl font-bold text-text " weight="bold">
               Ваши вакансии
             </Text>
-            {/* NEED TO FIX */}
             <MyTouchableOpacity onPress={handleAllVacancies}>
               <Text className="text-primary" weight="regular">
                 Все вакансии
@@ -138,16 +168,49 @@ const HRProfileScreen: React.FC = () => {
               </View>
             </MyTouchableOpacity>
           ))}
+          <View className="mb-6 mt-4">
+            <View className="w-full flex flex-row items-center justify-between mb-4">
+              <Text className="text-xl font-bold text-text " weight="bold">
+                Рекомендуемые резюме
+              </Text>
+              <MyTouchableOpacity onPress={handlePreferableResumes}>
+                <Text className="text-primary" weight="regular">
+                  Все резюме
+                </Text>
+              </MyTouchableOpacity>
+            </View>
+            {Resumes.map((resume) => (
+              <MyTouchableOpacity
+                key={resume.id}
+                className="bg-white p-4 rounded-xl shadow-sm mb-3"
+                onPress={() => navigation.navigate("CandidateScreen" as never)}
+              >
+                <Text className="text-lg font-semibold text-text">
+                  {resume.name}
+                </Text>
+                <Text className="text-sm text-secondary mb-2">
+                  {resume.position}
+                </Text>
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-sm text-gray-500">
+                    Опыт: {resume.experience} лет
+                  </Text>
+                  <Text className="text-sm text-primary">
+                    Ценность: {resume.value}%
+                  </Text>
+                </View>
+              </MyTouchableOpacity>
+            ))}
+          </View>
+          <MyTouchableOpacity
+            className="bg-primary py-4 px-6 rounded-full items-center"
+            onPress={handleAddVacancy}
+          >
+            <Text className="text-white text-lg font-semibold">
+              Добавить новую вакансию
+            </Text>
+          </MyTouchableOpacity>
         </View>
-
-        <MyTouchableOpacity
-          className="bg-primary py-4 px-6 rounded-full items-center"
-          onPress={handleAddVacancy}
-        >
-          <Text className="text-white text-lg font-semibold">
-            Добавить новую вакансию
-          </Text>
-        </MyTouchableOpacity>
       </View>
     </Layout>
   );
