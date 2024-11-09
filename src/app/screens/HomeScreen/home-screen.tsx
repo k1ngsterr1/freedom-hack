@@ -1,25 +1,17 @@
-import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { View } from "react-native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
-import { UserTypeSelector } from "@features/ui/UserTypeSelector/user-type-selector";
 import { VacancyCard } from "@features/ui/VacancyCard/vacancy-card";
-import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
+import { useUserStackStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { vacancies } from "@shared/lib/recommendation-content";
 import { CompactHorizontalVacancySwiper } from "@widgets/ui/RecommendationsSwiper/recommendation-swiper";
 
 export const HomeScreen = () => {
-  const { isOpen } = useOpenCloseStore();
-  const toggleOpenClose = useOpenCloseStore((state) => state.toggleOpenClose);
+  const { isOpen } = useUserStackStore();
+  const toggleOpenClose = useUserStackStore((state) => state.toggleOpenClose);
 
   return (
     <Layout isBottomTab isHeader isScroll>

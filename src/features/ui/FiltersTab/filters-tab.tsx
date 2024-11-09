@@ -16,7 +16,7 @@ import {
 } from "react-native-gesture-handler";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
-import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
+import { useUserStackStore } from "src/entites/FilterTab/model/filter-tab-store";
 
 interface FilterOption {
   id: string;
@@ -76,8 +76,8 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
   const leftThumbPosition = useSharedValue(0);
   const rightThumbPosition = useSharedValue(SLIDER_WIDTH);
 
-  const isOpen = useOpenCloseStore((state) => state.isOpen);
-  const toggleOpenClose = useOpenCloseStore((state) => state.toggleOpenClose);
+  const isOpen = useUserStackStore((state) => state.isOpen);
+  const toggleOpenClose = useUserStackStore((state) => state.toggleOpenClose);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],

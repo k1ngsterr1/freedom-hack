@@ -3,10 +3,11 @@ import { SafeAreaView, View, ScrollView, TouchableOpacity } from "react-native";
 import { BottomTab } from "@features/ui/BottomTab/bottom-tab";
 import { FiltersTabs } from "@features/ui/FiltersTab/filters-tab";
 import Text from "@shared/ui/Text/text";
-import { useOpenCloseStore } from "src/entites/FilterTab/model/filter-tab-store";
+import { useUserStackStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
+import { VacancyFilterPanel } from "@features/ui/VacancyFilterTab/vacancy-filter-tab";
 
 interface ILayout {
   children: React.ReactNode;
@@ -47,7 +48,7 @@ export const Layout: React.FC<ILayout> = ({
   isChat = false,
 }) => {
   const navigation = useNavigation();
-  const { isOpen } = useOpenCloseStore();
+  const { isOpen } = useUserStackStore();
 
   return (
     <SafeAreaView className="flex-1">
@@ -124,6 +125,7 @@ export const Layout: React.FC<ILayout> = ({
         options={filterOptions}
         onFilterChange={() => console.log("LOL")}
       />
+      <VacancyFilterPanel />
     </SafeAreaView>
   );
 };
