@@ -33,7 +33,6 @@ export const EnhancedSettingsScreen: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
-  const navigation = useNavigation();
 
   const imageScale = useSharedValue(1);
 
@@ -62,7 +61,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
   const handleLogout = async () => {
     console.log("Logging out...");
     try {
-      await AsyncStorage.clear(); // Clears all data from AsyncStorage
+      await AsyncStorage.clear();
       console.log("AsyncStorage cleared, user logged out.");
     } catch (error) {
       console.error("Error clearing AsyncStorage during logout:", error);
@@ -79,7 +78,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
     >
       <TouchableOpacity
         className={`flex-row items-center justify-between p-4 border-b border-gray-200 ${
-          selectedLanguage === lang.code ? "bg-primary bg-opacity-10" : ""
+          selectedLanguage === lang.code ? "bg-[#4FB84F] bg-opacity-10" : ""
         }`}
         onPress={() => setSelectedLanguage(lang.code)}
       >
@@ -95,9 +94,9 @@ export const EnhancedSettingsScreen: React.FC = () => {
   );
 
   return (
-    <Layout isHeader isBottomTab isScroll>
+    <Layout isHeader isBottomTab isScroll isBack>
       <View className="flex-1 w-full">
-        <View className=" pt-12 pb-20 px-6 rounded-b-3xl">
+        <View className=" pt-12 pb-20 rounded-b-3xl">
           <Animated.View
             className="items-center"
             entering={FadeInDown.duration(600)}
@@ -118,7 +117,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
             <Text className="text-base text-primary">john.doe@example.com</Text>
           </Animated.View>
         </View>
-        <View className="px-6">
+        <View className="">
           <Animated.View
             className="bg-white rounded-2xl shadow-md overflow-hidden mb-6"
             entering={FadeInDown.delay(300).duration(600)}

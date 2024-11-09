@@ -89,7 +89,7 @@ const HRProfileScreen: React.FC = () => {
   };
 
   const handleAllVacancies = () => {
-    navigation.navigate("AllVacancies" as never); // Navigate to the Login screen
+    navigation.navigate("AllVacancies" as never);
   };
 
   const handlePreferableResumes = () => {
@@ -97,7 +97,7 @@ const HRProfileScreen: React.FC = () => {
   };
 
   return (
-    <Layout isScroll isHeader isHR isChat>
+    <Layout isScroll isHeader isHR isChat isNoMarginBottom>
       <View className="w-full mt-2">
         <View className="flex-row items-center mb-6">
           <Image

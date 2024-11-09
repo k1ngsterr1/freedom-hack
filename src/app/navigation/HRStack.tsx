@@ -26,6 +26,7 @@ export const HRStack = () => (
     <Stack.Screen name="CandidateScreen" component={CandidateScreen} />
     <Stack.Screen name="ChatScreen" component={ChatScreen} />
     <Stack.Screen name="AllChatsScreen" component={AllChatsScreen} />
+    <Stack.Screen name="AllVacancies" component={AllScreenVacancies} />
     <Stack.Screen
       name="PreferableResumes"
       component={PreferableResumesScreen}
