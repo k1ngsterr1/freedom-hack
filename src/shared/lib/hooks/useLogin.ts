@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUserStore } from "src/entites/UserType/model/user-type-store";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 interface UseLoginResult {
   login: string;
@@ -9,7 +10,7 @@ interface UseLoginResult {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   error: string;
   loginFunction: () => Promise<void>;
-  isLogged: boolean; // Add this line
+  isLogged: boolean;
 }
 
 export function useLogin(): UseLoginResult {
@@ -34,6 +35,9 @@ export function useLogin(): UseLoginResult {
       const { role } = response.data;
       setSelectedType(role);
       setIsLogged(true);
+
+      // Save user data to AsyncStorage
+      await AsyncStorage.setItem("userData", JSON.stringify(response.data));
     } catch (error: any) {
       setError(
         error.response?.data?.error || "Login failed. Please try again."
