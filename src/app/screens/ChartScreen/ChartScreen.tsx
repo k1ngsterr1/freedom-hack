@@ -1,21 +1,10 @@
 import React from "react";
-import { View, ScrollView, Dimensions } from "react-native";
+import { View, Dimensions } from "react-native";
 import { Layout } from "@app/layouts/layout";
 import Text from "@shared/ui/Text/text";
-import {
-  BarChart,
-  LineChart,
-  PieChart,
-  Cell,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Pie,
-  Bar,
-  Line,
-} from "recharts";
+import Svg, { G, Path, Circle, Text as SvgText, Rect } from "react-native-svg";
+import { arc, pie, line, curveMonotoneX } from "d3-shape";
+import { scaleLinear } from "d3-scale";
 
 const { width } = Dimensions.get("window");
 
@@ -42,23 +31,144 @@ const activityData = [
   { date: "2023-06-29", applications: 6, interviews: 3 },
 ];
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <View style={{ backgroundColor: "white", padding: 10, borderRadius: 5 }}>
-        <Text
-          style={{ color: "#666" }}
-        >{`${label} : ${payload[0].value}`}</Text>
-      </View>
-    );
-  }
-  return null;
+const CustomPieChart = ({ data }) => {
+  const pieGenerator = pie()
+    .value((d) => d.value)
+    .sort(null);
+
+  const arcs = pieGenerator(data);
+
+  const radius = 100;
+
+  const arcGenerator = arc().outerRadius(radius).innerRadius(0);
+
+  return (
+    <Svg height="300" width={width - 100}>
+      <G transform={`translate(${(width - 32) / 2.5}, 150)`}>
+        {arcs.map((slice, index) => {
+          const pathData = arcGenerator(slice);
+          const [labelX, labelY] = arcGenerator.centroid(slice);
+          return (
+            <G key={index}>
+              <Path d={pathData} fill={slice.data.color} />
+              <SvgText
+                x={labelX}
+                y={labelY}
+                fill="#fff"
+                fontSize="12"
+                textAnchor="middle"
+                alignmentBaseline="middle"
+              >
+                {slice.data.status}
+              </SvgText>
+            </G>
+          );
+        })}
+      </G>
+    </Svg>
+  );
 };
 
-export const JobSeekerDashboard: React.FC = () => {
+const CustomBarChart = ({ data }) => {
+  const maxScore = Math.max(...data.map((item) => item.score));
+  const xScale = scaleLinear()
+    .domain([0, data.length])
+    .range([0, width - 64]);
+  const yScale = scaleLinear().domain([0, maxScore]).range([250, 0]);
+  const barWidth = (width - 64) / data.length - 10;
+
   return (
-    <Layout isHeader isBottomTab>
-      <ScrollView className="flex-1 bg-gray-50">
+    <Svg height="300" width={width - 110}>
+      <G transform="translate(32, 20) mr-3">
+        {data.map((item, index) => (
+          <G key={index} transform={`translate(${xScale(index) + 5}, 0)`}>
+            <Rect
+              x={0}
+              y={yScale(item.score)}
+              width={barWidth}
+              height={250 - yScale(item.score)}
+              fill="#8884d8"
+            />
+            <SvgText
+              x={barWidth / 2}
+              y={260}
+              fontSize="12"
+              textAnchor="middle"
+              fill="#333"
+            >
+              {item.name}
+            </SvgText>
+          </G>
+        ))}
+      </G>
+    </Svg>
+  );
+};
+
+const CustomLineChart = ({ data }) => {
+  const maxValue = Math.max(
+    ...data.flatMap((item) => [item.applications, item.interviews])
+  );
+  const xScale = scaleLinear()
+    .domain([0, data.length - 1])
+    .range([32, width - 32]);
+  const yScale = scaleLinear().domain([0, maxValue]).range([250, 20]);
+
+  const applicationLineGenerator = line()
+    .x((d, i) => xScale(i))
+    .y((d) => yScale(d.applications))
+    .curve(curveMonotoneX);
+
+  const interviewLineGenerator = line()
+    .x((d, i) => xScale(i))
+    .y((d) => yScale(d.interviews))
+    .curve(curveMonotoneX);
+
+  return (
+    <Svg height="300" width={width - 110}>
+      <G>
+        {/* Applications Line */}
+        <Path
+          d={applicationLineGenerator(data)}
+          fill="none"
+          stroke="#8884d8"
+          strokeWidth="2"
+        />
+        {/* Interviews Line */}
+        <Path
+          d={interviewLineGenerator(data)}
+          fill="none"
+          stroke="#82ca9d"
+          strokeWidth="2"
+        />
+        {/* Data Points */}
+        {data.map((item, index) => (
+          <G key={index}>
+            {/* Applications Point */}
+            <Circle
+              cx={xScale(index)}
+              cy={yScale(item.applications)}
+              r="4"
+              fill="#8884d8"
+            />
+            {/* Interviews Point */}
+            <Circle
+              cx={xScale(index)}
+              cy={yScale(item.interviews)}
+              r="4"
+              fill="#82ca9d"
+            />
+          </G>
+        ))}
+      </G>
+    </Svg>
+  );
+};
+
+export const CustomJobSeekerDashboard = () => {
+  return (
+    <Layout isHeader isBottomTab isScroll>
+      <View className="flex-1">
         <View className="p-4">
           <Text className="text-2xl font-bold text-primary mb-4">
             Job Search Dashboard
@@ -71,26 +181,7 @@ export const JobSeekerDashboard: React.FC = () => {
             <Text className="text-sm text-gray-600 mb-4">
               Overview of your job applications
             </Text>
-            <PieChart width={width - 32} height={300}>
-              <Pie
-                data={applicationData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
-              >
-                {applicationData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-            </PieChart>
+            <CustomPieChart data={applicationData} />
           </View>
 
           <View className="bg-white rounded-xl shadow-sm p-4 mb-6">
@@ -100,13 +191,7 @@ export const JobSeekerDashboard: React.FC = () => {
             <Text className="text-sm text-gray-600 mb-4">
               Your proficiency in key skills
             </Text>
-            <BarChart width={width - 32} height={300} data={skillsData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Bar dataKey="score" fill="#8884d8" />
-            </BarChart>
+            <CustomBarChart data={skillsData} />
           </View>
 
           <View className="bg-white rounded-xl shadow-sm p-4 mb-6">
@@ -116,17 +201,10 @@ export const JobSeekerDashboard: React.FC = () => {
             <Text className="text-sm text-gray-600 mb-4">
               Your application and interview trends
             </Text>
-            <LineChart width={width - 32} height={300} data={activityData}>
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Line type="monotone" dataKey="applications" stroke="#8884d8" />
-              <Line type="monotone" dataKey="interviews" stroke="#82ca9d" />
-            </LineChart>
+            <CustomLineChart data={activityData} />
           </View>
         </View>
-      </ScrollView>
+      </View>
     </Layout>
   );
 };

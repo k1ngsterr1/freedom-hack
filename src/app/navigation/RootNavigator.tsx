@@ -21,12 +21,12 @@ import React from "react";
 import { StatusBar } from "react-native";
 import PreferableResumesScreen from "@app/screens/PreferableResumes/preferable-resumes-screen";
 import { RecommendedVacanciesScreen } from "@app/screens/RecommendedVacancies/recommended-vacancies-screen";
-
+import { CustomJobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { WorkStyleTestScreen } from "@app/screens/TestScreens/work-style-screen";
-
 import { JobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { PersonalityTypeTestScreen } from "@app/screens/TestScreens/personality-type-screen";
 import { ProfessionalSkillsTestScreen } from "@app/screens/TestScreens/analysis-professional-skills-screen";
+
 
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
@@ -48,7 +48,7 @@ export const RootNavigator = () => (
 
         {/* User Screens */}
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Test" component={JobSeekerDashboard} />
+        <Stack.Screen name="Test" component={CustomJobSeekerDashboard} />
         <Stack.Screen name="Settings" component={EnhancedSettingsScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
 
