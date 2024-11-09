@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
@@ -57,10 +57,7 @@ const AddVacancyScreen: React.FC = () => {
     contacts: [],
   });
 
-  const [newSkill, setNewSkill] = useState<{ hard: string; soft: string }>({
-    hard: "",
-    soft: "",
-  });
+  const [newSkill, setNewSkill] = useState({ hard: "", soft: "" });
 
   const handleInputChange = (field: keyof Vacancy, value: string) => {
     setVacancy((prev) => ({ ...prev, [field]: value }));
@@ -102,13 +99,29 @@ const AddVacancyScreen: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("Submitting vacancy data:", JSON.stringify(vacancy, null, 2));
+
     try {
-      const response = await axiosInstance.post("/api/vacancies/add", vacancy);
-      console.log("Vacancy submitted successfully:", response.data);
-      // Optionally, navigate to a success page or show a success message here
-    } catch (error) {
+      const response = await axiosInstance.post("/vacancies/add", vacancy);
+      console.log("Server response:", response.data);
+      Alert.alert("Success", "Vacancy added successfully!");
+
+      setVacancy({
+        title: "",
+        description: "",
+        hard_skills: [],
+        soft_skills: [],
+        formatOfWork: [],
+        employmentType: "",
+        salary: [0, 0],
+        task: "",
+        additional: [],
+        contacts: [],
+      });
+    } catch (error: any) {
       console.error("Error submitting vacancy:", error);
-      // Optionally, handle the error (e.g., show an error message)
+      console.log("Error details:", error.response?.data || error.message);
+      Alert.alert("Error", "Failed to add vacancy. Please try again.");
     }
   };
 
@@ -135,12 +148,12 @@ const AddVacancyScreen: React.FC = () => {
           Добавить вакансию
         </Text>
 
-        {/* Vacancy Title Input */}
         <View className="mb-4">
           <Text className="text-base font-semibold text-text mb-2">
             Название вакансии
           </Text>
           <TextInput
+            name="title"
             className="bg-white p-3 rounded-xl text-text"
             value={vacancy.title}
             onChangeText={(value) => handleInputChange("title", value)}
@@ -148,13 +161,11 @@ const AddVacancyScreen: React.FC = () => {
           />
         </View>
 
-        {/* Vacancy Description Input */}
         <VacancyTextarea
           description={vacancy.description}
           onChangeText={(value) => handleInputChange("description", value)}
         />
 
-        {/* Hard Skills Input */}
         <View className="mb-4">
           <Text className="text-base font-semibold text-text mb-2">
             Hard Skills
@@ -178,7 +189,6 @@ const AddVacancyScreen: React.FC = () => {
           {renderSkillTabs(vacancy.hard_skills, "hard")}
         </View>
 
-        {/* Soft Skills Input */}
         <View className="mb-4">
           <Text className="text-base font-semibold text-text mb-2">
             Soft Skills
@@ -202,10 +212,94 @@ const AddVacancyScreen: React.FC = () => {
           {renderSkillTabs(vacancy.soft_skills, "soft")}
         </View>
 
-        {/* Other Fields for Format of Work, Employment Type, Salary, etc. */}
-        {/* Similar structure for other input fields */}
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Формат работы (через запятую)
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.formatOfWork.join(", ")}
+            onChangeText={(value) =>
+              handleArrayInputChange("formatOfWork", value)
+            }
+            placeholder="Например: Удаленно, Офис, Гибрид"
+          />
+        </View>
 
-        {/* Submit Button */}
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Тип занятости
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.employmentType}
+            onChangeText={(value) => handleInputChange("employmentType", value)}
+            placeholder="Например: Полная занятость, Частичная занятость"
+          />
+        </View>
+
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Зарплата (от - до)
+          </Text>
+          <View className="flex-row">
+            <TextInput
+              className="bg-white p-3 rounded-xl text-text flex-1 mr-2"
+              value={vacancy.salary[0].toString()}
+              onChangeText={(value) => handleSalaryChange(0, value)}
+              placeholder="От"
+              keyboardType="numeric"
+            />
+            <TextInput
+              className="bg-white p-3 rounded-xl text-text flex-1 ml-2"
+              value={vacancy.salary[1].toString()}
+              onChangeText={(value) => handleSalaryChange(1, value)}
+              placeholder="До"
+              keyboardType="numeric"
+            />
+          </View>
+        </View>
+
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Тестовое задание
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.task}
+            onChangeText={(value) => handleInputChange("task", value)}
+            placeholder="Введите тестовое задание"
+            multiline
+            numberOfLines={4}
+          />
+        </View>
+
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Дополнительно (через запятую)
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.additional.join(", ")}
+            onChangeText={(value) =>
+              handleArrayInputChange("additional", value)
+            }
+            placeholder="Дополнительная информация"
+          />
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-base font-semibold text-text mb-2">
+            Контакты (через запятую)
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.contacts.join(", ")}
+            onChangeText={(value) => handleArrayInputChange("contacts", value)}
+            placeholder="Например: email@example.com, +7 (999) 123-45-67"
+          />
+        </View>
+
         <MyTouchableOpacity
           className="bg-primary py-3 px-6 rounded-full items-center"
           onPress={handleSubmit}
