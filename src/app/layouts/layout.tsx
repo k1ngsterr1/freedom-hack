@@ -17,7 +17,8 @@ interface ILayout {
   isScroll?: boolean;
   isHR?: boolean;
   isChat?: boolean;
-  isBack?: boolean; // New prop for displaying back button
+  isBack?: boolean;
+  isNoMarginBottom?: boolean;
 }
 
 interface FilterOption {
@@ -38,6 +39,7 @@ export const Layout: React.FC<ILayout> = ({
   isTab,
   isHeader,
   isLogo,
+  isNoMarginBottom = false,
   isBottomTab,
   isScroll = false,
   isHR = false,
@@ -71,7 +73,9 @@ export const Layout: React.FC<ILayout> = ({
           <View className="flex flex-col items-end">
             <Text className="text-text text-bold text-2xl">
               {isChat ? (
-                <MyTouchableOpacity onPress={() => console.log("LOL")}>
+                <MyTouchableOpacity
+                  onPress={() => navigation.navigate("AllChatsScreen" as never)}
+                >
                   <Feather name="message-circle" size={32} color="#045433" />
                 </MyTouchableOpacity>
               ) : isHR ? (
@@ -106,7 +110,7 @@ export const Layout: React.FC<ILayout> = ({
           <View
             style={{
               width: "100%",
-              paddingBottom: isTab ? 140 : 64,
+              paddingBottom: isNoMarginBottom ? 0 : isTab ? 140 : 64,
               flexGrow: 1,
             }}
             className="flex flex-col items-center justify-center"

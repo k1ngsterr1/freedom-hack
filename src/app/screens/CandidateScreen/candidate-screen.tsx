@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
@@ -65,6 +66,7 @@ const mockCandidate: Candidate = {
 
 export default function Component() {
   const [status, setStatus] = useState("Новый");
+  const navigation = useNavigation();
 
   const renderSkillTags = (skills: string[]) => (
     <View className="flex-row flex-wrap mt-2">
@@ -96,16 +98,6 @@ export default function Component() {
       ))}
     </View>
   );
-
-  const changeStatus = () => {
-    if (status === "Новый") {
-      setStatus("Отобран");
-    } else if (status === "Отобран") {
-      setStatus("Отклонен");
-    } else {
-      setStatus("Новый");
-    }
-  };
 
   return (
     <Layout isBack isHeader isScroll>
@@ -200,7 +192,7 @@ export default function Component() {
 
         <MyTouchableOpacity
           className="bg-primary py-3 px-6 rounded-full items-center mb-4"
-          onPress={changeStatus}
+          onPress={() => navigation.navigate("ChatScreen" as never)}
         >
           <Text className="text-white font-semibold text-lg">
             Отправить запрос на интервью
