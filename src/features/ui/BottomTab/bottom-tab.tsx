@@ -116,7 +116,7 @@ export const BottomTab: React.FC = () => {
       <NavigationButton
         iconName="search"
         page="love"
-        screen="Quiz"
+        screen="Search"
         isActive={activePage === "search"}
       />
       <NavigationButton
