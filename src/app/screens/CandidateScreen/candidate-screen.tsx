@@ -101,7 +101,7 @@ export default function Component() {
 
   return (
     <Layout isBack isHeader isScroll>
-      <View className="px-4">
+      <View>
         <View className="flex-row items-center mb-4">
           <Image
             source={{ uri: mockCandidate.photoUrl }}

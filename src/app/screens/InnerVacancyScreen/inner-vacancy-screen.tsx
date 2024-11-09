@@ -108,95 +108,80 @@ const InnerVacancyScreen: React.FC = () => {
   return (
     <Layout isHR isHeader isBack isBottomTab isScroll>
       <View className="mt-4 w-full">
-        <View className="px-4">
-          <Text className="text-2xl font-bold text-text mb-2">
-            {mockVacancy.title}
+        <Text className="text-2xl font-bold text-text mb-2">
+          {mockVacancy.title}
+        </Text>
+        <Text className="text-lg text-secondary mb-4">
+          {mockVacancy.salary[0]} - {mockVacancy.salary[1]} ₽
+        </Text>
+
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">Описание</Text>
+          <Text className="text-base text-text">{mockVacancy.description}</Text>
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Hard Skills
           </Text>
-          <Text className="text-lg text-secondary mb-4">
-            {mockVacancy.salary[0]} - {mockVacancy.salary[1]} ₽
+          {renderSkillTags(mockVacancy.hard_skills)}
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Soft Skills
           </Text>
+          {renderSkillTags(mockVacancy.soft_skills)}
+        </View>
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Формат работы:
+          </Text>
+          <Text className="text-base text-text">
+            {mockVacancy.formatOfWork.join(", ")}
+          </Text>
+        </View>
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Тип занятости:
+          </Text>
+          <Text className="text-base text-text">
+            {mockVacancy.employmentType}
+          </Text>
+        </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Описание
-            </Text>
-            <Text className="text-base text-text">
-              {mockVacancy.description}
-            </Text>
-          </View>
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Тестовое задание:
+          </Text>
+          <Text className="text-base text-text">{mockVacancy.task}</Text>
+        </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Hard Skills
-            </Text>
-            {renderSkillTags(mockVacancy.hard_skills)}
-          </View>
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Дополнительно:
+          </Text>
+          <Text className="text-base text-text">
+            {mockVacancy.additional.join(", ")}
+          </Text>
+        </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Soft Skills
+        <View className="mb-8">
+          <Text className="text-lg font-semibold text-text mb-2">
+            Контакты:
+          </Text>
+          {mockVacancy.contacts.map((contact, index) => (
+            <Text key={index} className="text-base text-text">
+              {contact}
             </Text>
-            {renderSkillTags(mockVacancy.soft_skills)}
-          </View>
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Формат работы
-            </Text>
-            <Text className="text-base text-text">
-              {mockVacancy.formatOfWork.join(", ")}
-            </Text>
-          </View>
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Тип занятости
-            </Text>
-            <Text className="text-base text-text">
-              {mockVacancy.employmentType}
-            </Text>
-          </View>
+          ))}
+        </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Тестовое задание
-            </Text>
-            <Text className="text-base text-text">{mockVacancy.task}</Text>
-          </View>
-
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Дополнительно
-            </Text>
-            <Text className="text-base text-text">
-              {mockVacancy.additional.join(", ")}
-            </Text>
-          </View>
-
-          <View className="mb-8">
-            <Text className="text-lg font-semibold text-text mb-2">
-              Контакты
-            </Text>
-            {mockVacancy.contacts.map((contact, index) => (
-              <Text key={index} className="text-base text-text">
-                {contact}
-              </Text>
-            ))}
-          </View>
-
-          <View className="mb-6">
-            <Text className="text-xl font-bold text-text mb-4">
-              Рекомендуемые резюме
-            </Text>
-            {mockResumes.map(renderResumeCard)}
-          </View>
-
-          <MyTouchableOpacity
-            className="bg-primary py-3 px-6 rounded-full items-center mb-8"
-            onPress={() => console.log("Edit vacancy")}
-          >
-            <Text className="text-white font-semibold">
-              Редактировать вакансию
-            </Text>
-          </MyTouchableOpacity>
+        <View className="mb-6">
+          <Text className="text-xl font-bold text-text mb-4">
+            Рекомендуемые кандидаты:
+          </Text>
+          {mockResumes.map(renderResumeCard)}
         </View>
       </View>
     </Layout>
