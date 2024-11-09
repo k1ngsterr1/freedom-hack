@@ -76,7 +76,7 @@ export const RecommendedVacanciesScreen = () => {
   }
 
   return (
-    <Layout isBack isScroll isHeader isChat>
+    <Layout isBack isScroll isHeader isChat isNoMarginBottom>
       <View className="flex-1">
         <Text className="text-2xl mb-4 text-text" weight="bold">
           Рекомендованные вакансии
