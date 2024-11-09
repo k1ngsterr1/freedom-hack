@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Modal } from "react-native";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
@@ -16,10 +16,42 @@ interface TestTabProps {
   allowManualNext?: boolean;
 }
 
+const CompletionPopup: React.FC<{ visible: boolean; onClose: () => void }> = ({
+  visible,
+  onClose,
+}) => (
+  <Modal
+    animationType="fade"
+    transparent={true}
+    visible={visible}
+    onRequestClose={onClose}
+  >
+    <View
+      className="flex-1 justify-center items-center bg-opacity-50"
+      style={{ backgroundColor: "(rgba(0, 0, 0, 0.4))" }}
+    >
+      <View className="bg-white p-6 rounded-2xl w-5/6 max-w-sm">
+        <Text className="text-2xl font-bold mb-4 text-center">Спасибо!</Text>
+        <Text className="text-base mb-6 text-center">
+          Благодарим вас за прохождение теста. Ваши ответы помогут нам лучше
+          понять ваши навыки и предпочтения.
+        </Text>
+        <MyTouchableOpacity
+          className="bg-primary py-3 px-6 rounded-full self-center"
+          onPress={onClose}
+        >
+          <Text className="text-white font-semibold">Закрыть</Text>
+        </MyTouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
 export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showCompletionPopup, setShowCompletionPopup] = useState(false);
 
   const handleAnswer = (questionId: number, answer: string) => {
     setSelectedOption(answer);
@@ -34,21 +66,25 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
   };
 
   const handleSubmit = () => {
+    setShowCompletionPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowCompletionPopup(false);
     onComplete(answers);
   };
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   return (
-    <ScrollView className="flex-1">
-      <View className="mb-4 bg-gray-200 h-2 rounded-full">
+    <ScrollView className="flex-1 w-full">
+      <View className="w-full mb-4 bg-gray-200 h-2 rounded-full">
         <View
           style={{ width: `${progress}%` }}
           className="bg-primary h-2 rounded-full"
         />
       </View>
-
-      <View className="mb-6">
+      <View className="mb-6 w-full min-h-[100px]">
         <Text className="text-lg font-semibold text-text mb-4">
           {questions[currentQuestion].text}
         </Text>
@@ -72,8 +108,7 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
           </MyTouchableOpacity>
         ))}
       </View>
-
-      <View className="flex-row justify-between mb-6">
+      <View className="flex-row justify-between mb-6 w-full">
         <MyTouchableOpacity
           className="flex-row items-center"
           onPress={() => {
@@ -115,17 +150,29 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
           </MyTouchableOpacity>
         ) : (
           <MyTouchableOpacity
-            className={`flex-row items-center ${
-              selectedOption ? "opacity-100" : "opacity-50"
-            }`}
+            className={`flex-row items-center`}
             onPress={handleNextQuestion}
             disabled={!selectedOption}
           >
-            <Text className="mr-2 text-primary">Далее</Text>
-            <Feather name="chevron-right" size={24} color="#4FB84F" />
+            <Text
+              className={` ${
+                selectedOption ? "text-primary" : "text-gray-400"
+              } mr-2 `}
+            >
+              Далее
+            </Text>
+            <Feather
+              name="chevron-right"
+              size={24}
+              color={selectedOption ? "#4FB84F" : "#9CA3AF"}
+            />
           </MyTouchableOpacity>
         )}
       </View>
+      <CompletionPopup
+        visible={showCompletionPopup}
+        onClose={handleClosePopup}
+      />
     </ScrollView>
   );
 };
