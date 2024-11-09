@@ -1,20 +1,43 @@
-import React, { useState } from "react";
-import { View, TextInput, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { useLogin } from "@shared/lib/hooks/useLogin";
+import { useUserStore } from "src/entites/UserType/model/user-type-store";
 
 export const LoginScreen = () => {
-  const { login, setLogin, password, setPassword, error, loginFunction } =
-    useLogin();
+  const {
+    login,
+    setLogin,
+    isLogged,
+    password,
+    setPassword,
+    error,
+    loginFunction,
+  } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
+  const { selectedType } = useUserStore();
 
-  const handleHomeNavigation = () => {
-    navigation.navigate("Home" as never);
+  useEffect(() => {
+    if (selectedType === "HR") {
+      navigation.navigate("HRProfile" as never);
+    } else if (selectedType) {
+      navigation.navigate("HomeScreen" as never);
+    }
+  }, [isLogged]);
+
+  const handleLogin = async () => {
+    await loginFunction();
   };
 
   const handleRegistrationNavigation = () => {
@@ -72,7 +95,7 @@ export const LoginScreen = () => {
 
           <MyTouchableOpacity
             className="w-full h-[50px] items-center justify-center rounded-full bg-primary mt-6"
-            onPress={handleHomeNavigation}
+            onPress={handleLogin}
           >
             <Text className="text-lg text-white" weight="bold">
               Войти
