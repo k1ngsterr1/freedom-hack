@@ -18,14 +18,14 @@ const tests = [
     id: "2",
     name: "Тест на тип личности",
     estimatedTime: 15,
-    screen: "PersonalityTest",
+    screen: "PersonalityTypeTest",
   },
 
   {
     id: "3",
     name: "Анализ профессиональных навыков",
     estimatedTime: 25,
-    screen: "SkillsAnalysisTest",
+    screen: "ProfessionalSkillsTestScreen",
   },
 ];
 
