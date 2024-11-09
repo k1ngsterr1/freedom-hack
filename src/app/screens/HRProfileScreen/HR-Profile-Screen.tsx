@@ -111,11 +111,6 @@ const HRProfileScreen: React.FC = () => {
             </Text>
             <Text className="text-base text-secondary">HR-менеджер</Text>
           </View>
-          <MyTouchableOpacity
-            onPress={() => navigation.navigate("RecommendedVacancies" as never)}
-          >
-            <Text>recom</Text>
-          </MyTouchableOpacity>
         </View>
 
         <View className="flex-row justify-between mb-6">
