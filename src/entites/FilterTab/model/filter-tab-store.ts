@@ -7,9 +7,13 @@ interface OpenCloseStore {
   close: () => void;
 }
 
-export const useOpenCloseStore = create<OpenCloseStore>((set) => ({
-  isOpen: false, // Initial state
-  toggleOpenClose: () => set((state) => ({ isOpen: !state.isOpen })),
-  open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
-}));
+export const createOpenCloseStore = () =>
+  create<OpenCloseStore>((set) => ({
+    isOpen: false,
+    toggleOpenClose: () => set((state) => ({ isOpen: !state.isOpen })),
+    open: () => set({ isOpen: true }),
+    close: () => set({ isOpen: false }),
+  }));
+
+export const useUserStackStore = createOpenCloseStore();
+export const useVacancyStore = createOpenCloseStore();
