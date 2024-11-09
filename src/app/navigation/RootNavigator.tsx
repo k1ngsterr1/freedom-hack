@@ -20,6 +20,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import { StatusBar } from "react-native";
+import PreferableResumesScreen from "@app/screens/PreferableResumes/preferable-resumes-screen";
+import { RecommendedVacanciesScreen } from "@app/screens/RecommendedVacancies/recommended-vacancies-screen";
 
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
@@ -54,6 +56,14 @@ export const RootNavigator = () => (
         <Stack.Screen name="CandidateScreen" component={CandidateScreen} />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="AllChatsScreen" component={AllChatsScreen} />
+        <Stack.Screen
+          name="PreferableResumes"
+          component={PreferableResumesScreen}
+        />
+        <Stack.Screen
+          name="RecommendedVacancies"
+          component={RecommendedVacanciesScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   </>
