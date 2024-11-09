@@ -92,12 +92,8 @@ const HRProfileScreen: React.FC = () => {
     navigation.navigate("AllVacancies" as never);
   };
 
-  const handlePreferableResumes = () => {
-    navigation.navigate("PreferableResumes" as never);
-  };
-
   return (
-    <Layout isScroll isHeader isHR isChat isNoMarginBottom>
+    <Layout isScroll isHeader isHR isNoMarginBottom>
       <View className="w-full mt-2">
         <View className="flex-row items-center mb-6">
           <Image
@@ -110,6 +106,11 @@ const HRProfileScreen: React.FC = () => {
             <Text className="text-2xl font-bold text-text">Анна Смирнова</Text>
             <Text className="text-base text-secondary">HR-менеджер</Text>
           </View>
+          <MyTouchableOpacity
+            onPress={() => navigation.navigate("RecommendedVacancies" as never)}
+          >
+            <Text>recom</Text>
+          </MyTouchableOpacity>
         </View>
 
         <View className="flex-row justify-between mb-6">
@@ -173,7 +174,11 @@ const HRProfileScreen: React.FC = () => {
               <Text className="text-xl font-bold text-text " weight="bold">
                 Рекомендуемые резюме
               </Text>
-              <MyTouchableOpacity onPress={handlePreferableResumes}>
+              <MyTouchableOpacity
+                onPress={() =>
+                  navigation.navigate("PreferableResumes" as never)
+                }
+              >
                 <Text className="text-primary" weight="regular">
                   Все резюме
                 </Text>
