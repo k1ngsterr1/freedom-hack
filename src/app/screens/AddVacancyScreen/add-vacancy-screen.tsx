@@ -1,9 +1,35 @@
 import React, { useState } from "react";
-import { View, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { Layout } from "@app/layouts/layout";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
+
+interface VacancyTextareaProps {
+  description: string;
+  onChangeText: (value: string) => void;
+}
+
+export const VacancyTextarea: React.FC<VacancyTextareaProps> = ({
+  description,
+  onChangeText,
+}) => {
+  return (
+    <View className="mb-4">
+      <Text className="text-base font-semibold text-text mb-2">Описание</Text>
+      <TextInput
+        className="bg-white p-3 rounded-xl text-text"
+        value={description}
+        onChangeText={onChangeText}
+        placeholder="Введите описание вакансии"
+        multiline
+        numberOfLines={4} // Set the initial height for the textarea
+        textAlignVertical="top" // Ensures text starts at the top-left corner
+        style={{ minHeight: 100 }} // Optional: Adjust height to make it look more like a textarea
+      />
+    </View>
+  );
+};
 
 interface Vacancy {
   title: string;
@@ -94,7 +120,7 @@ const AddVacancyScreen: React.FC = () => {
   return (
     <Layout isHR isHeader isBack isScroll>
       <View className="flex-1 w-full">
-        <View className="p-4">
+        <View>
           <Text className="text-2xl font-bold text-text mb-6">
             Добавить вакансию
           </Text>
@@ -110,19 +136,10 @@ const AddVacancyScreen: React.FC = () => {
             />
           </View>
 
-          <View className="mb-4">
-            <Text className="text-base font-semibold text-text mb-2">
-              Описание
-            </Text>
-            <TextInput
-              className="bg-white p-3 rounded-xl text-text"
-              value={vacancy.description}
-              onChangeText={(value) => handleInputChange("description", value)}
-              placeholder="Введите описание вакансии"
-              multiline
-              numberOfLines={4}
-            />
-          </View>
+          <VacancyTextarea
+            description={vacancy.description}
+            onChangeText={(value) => handleInputChange("description", value)}
+          />
 
           <View className="mb-4">
             <Text className="text-base font-semibold text-text mb-2">

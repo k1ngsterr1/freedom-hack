@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Dimensions,
   ScrollView,
 } from "react-native";
 import { Layout } from "@app/layouts/layout";
@@ -56,27 +55,11 @@ const mockResults: SearchResult[] = [
     value: 80,
     createdAt: new Date("2023-05-01"),
   },
-  {
-    id: "4",
-    name: "Алексей Сидоров",
-    position: "DevOps Engineer",
-    experience: 4,
-    value: 80,
-    createdAt: new Date("2023-05-01"),
-  },
-  {
-    id: "4",
-    name: "Алексей Сидоров",
-    position: "DevOps Engineer",
-    experience: 4,
-    value: 80,
-    createdAt: new Date("2023-05-01"),
-  },
 ];
 
 type SortOption = "mostValuable" | "leastValuable" | "newest" | "oldest";
 
-export default function SearchScreen() {
+export default function PreferableResumesScreen() {
   const navigation = useNavigation();
   const [keyword, setKeyword] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("mostValuable");
@@ -168,20 +151,22 @@ export default function SearchScreen() {
             <Ionicons name="options" size={24} color="black" />
           </MyTouchableOpacity>
         </View>
-        <MyTouchableOpacity
-          onPress={() => navigation.navigate("CandidateScreen" as never)}
-        >
-          <FlatList
-            data={results}
-            renderItem={renderResultItem}
-            keyExtractor={(item) => item.id}
-            ListEmptyComponent={
-              <Text className="text-center text-gray-500 mt-4">
-                Результаты не найдены
-              </Text>
-            }
-          />
-        </MyTouchableOpacity>
+        <ScrollView>
+          <MyTouchableOpacity
+            onPress={() => navigation.navigate("CandidateScreen" as never)}
+          >
+            <FlatList
+              data={results}
+              renderItem={renderResultItem}
+              keyExtractor={(item) => item.id}
+              ListEmptyComponent={
+                <Text className="text-center text-gray-500 mt-4">
+                  Результаты не найдены
+                </Text>
+              }
+            />
+          </MyTouchableOpacity>
+        </ScrollView>
       </View>
     </Layout>
   );
