@@ -37,6 +37,7 @@ interface Vacancy {
   soft_skills: string[];
   formatOfWork: string[];
   employmentType: string;
+  location: string;
   salary: [number, number];
   task: string;
   additional: string[];
@@ -51,6 +52,7 @@ const AddVacancyScreen: React.FC = () => {
     soft_skills: [],
     formatOfWork: [],
     employmentType: "",
+    location: "",
     salary: [0, 0],
     task: "",
     additional: [],
@@ -108,6 +110,7 @@ const AddVacancyScreen: React.FC = () => {
 
       setVacancy({
         title: "",
+        location: "",
         description: "",
         hard_skills: [],
         soft_skills: [],
@@ -153,11 +156,22 @@ const AddVacancyScreen: React.FC = () => {
             Название вакансии
           </Text>
           <TextInput
-            name="title"
             className="bg-white p-3 rounded-xl text-text"
             value={vacancy.title}
             onChangeText={(value) => handleInputChange("title", value)}
             placeholder="Введите название вакансии"
+          />
+        </View>
+
+        <View className="mb-4">
+          <Text className="text-base font-semibold text-text mb-2">
+            Локация
+          </Text>
+          <TextInput
+            className="bg-white p-3 rounded-xl text-text"
+            value={vacancy.location}
+            onChangeText={(value) => handleInputChange("location", value)}
+            placeholder="Введите локацию вакансии"
           />
         </View>
 
