@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axiosInstance } from "./useInterceptor"; // Customize this path as needed
 import { useNavigation } from "@react-navigation/native";
 import { useUserStore } from "src/entites/UserType/model/user-type-store";
+import { executeNativeBackPress } from "react-native-screens";
 
 interface UseCreateAccountResult {
   fullName: string;
@@ -36,7 +37,7 @@ export function useCreateAccount(): UseCreateAccountResult {
       username: fullName,
       email,
       password,
-      role: "User",
+      role: selectedType,
     };
 
     console.log("Registering with data:", data);
@@ -50,8 +51,11 @@ export function useCreateAccount(): UseCreateAccountResult {
       await AsyncStorage.setItem("userData", userData);
       console.log("User data saved to AsyncStorage");
 
-      // Navigate to the next screen (e.g., CVScreen)
-      navigation.navigate("CVScreen" as never);
+      if (selectedType === "HR") {
+        navigation.navigate("Loading" as never);
+      } else {
+        navigation.navigate("CVScreen" as never);
+      }
     } catch (error: any) {
       setError(
         error.response?.data?.error || "Registration failed. Please try again."

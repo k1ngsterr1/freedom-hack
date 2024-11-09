@@ -35,7 +35,7 @@ export const usePDFToText = (): UsePDFToTextResult => {
           headers: {
             "Content-Type": "multipart/form-data",
             "x-api-key":
-              "erlanzh.gg@gmail.com_93o4fU1vv05iDXvtd6pDQhyVeBwWgniWTt8xkzRZwXBxqUbeLNaPWF6zdfvnLJV7", // Replace with your actual API key
+              "erlanzh.gg@gmail.com_93o4fU1vv05iDXvtd6pDQhyVeBwWgniWTt8xkzRZwXBxqUbeLNaPWF6zdfvnLJV7",
           },
         });
 
@@ -65,7 +65,7 @@ export const usePDFToText = (): UsePDFToTextResult => {
             headers: {
               "Content-Type": "application/json",
               "x-api-key":
-                "erlanzh.gg@gmail.com_93o4fU1vv05iDXvtd6pDQhyVeBwWgniWTt8xkzRZwXBxqUbeLNaPWF6zdfvnLJV7", // Replace with your actual API key
+                "erlanzh.gg@gmail.com_93o4fU1vv05iDXvtd6pDQhyVeBwWgniWTt8xkzRZwXBxqUbeLNaPWF6zdfvnLJV7",
             },
           }
         );
@@ -95,6 +95,8 @@ export const usePDFToText = (): UsePDFToTextResult => {
         const textResponse = await axios.get(textFileUrl, {
           responseType: "text", // Ensure response is returned as text
         });
+
+        console.log("text response:", textResponse.data);
         textContent = textResponse.data;
         console.log("[Text Fetch] Fetched text content:", textContent);
       } catch (error: any) {
@@ -106,17 +108,17 @@ export const usePDFToText = (): UsePDFToTextResult => {
         return;
       }
 
-      // Step 4: Send the extracted text to your backend endpoint
+      // Step 4: Send the extracted plain text to your backend endpoint
       try {
-        const addPdfUrl = "/applications/add-pdf";
-        const textUploadResponse = await axiosInstance.post(addPdfUrl, {
-          text: textContent,
+        const applicationsUrl = "/applications/add-pdf"; // Adjusted to correct endpoint
+        const textUploadResponse = await axiosInstance.post(applicationsUrl, {
+          text: textContent, // Send the extracted text as plain text in the body
         });
 
         if (textUploadResponse.status === 200) {
           setUploadStatus("success");
           console.log(
-            "[Text Upload] Text content successfully uploaded to backend"
+            "[Text Upload] Text content successfully uploaded to /applications"
           );
         } else {
           throw new Error("Text upload failed: Non-200 response status");

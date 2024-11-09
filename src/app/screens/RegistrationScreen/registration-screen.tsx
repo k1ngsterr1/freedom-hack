@@ -135,7 +135,7 @@ export const RegistrationScreen = () => {
             </MyTouchableOpacity>
           </View>
         </View>
-        <View className="flex-row justify-center mt-4">
+        <View className="flex-row justify-center mt-16">
           <Text className="text-text text-base">Уже есть аккаунт? </Text>
           <MyTouchableOpacity
             onPress={() => {
