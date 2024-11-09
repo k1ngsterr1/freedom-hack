@@ -52,7 +52,7 @@ export function useCreateAccount(): UseCreateAccountResult {
       console.log("User data saved to AsyncStorage");
 
       if (selectedType === "HR") {
-        navigation.navigate("Loading" as never);
+        navigation.navigate("HRProfile" as never);
       } else {
         navigation.navigate("CVScreen" as never);
       }
