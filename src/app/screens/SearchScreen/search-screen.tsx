@@ -13,7 +13,7 @@ export default function SearchScreen() {
   const { toggleOpenClose } = useUserStackStore();
 
   return (
-    <Layout isHeader isNoMarginBottom={true} isBack>
+    <Layout isHeader isBottomTab isNoMarginBottom={true} isBack>
       <View className="flex-1 w-full mt-4">
         <View className="flex-row items-center mb-4">
           <TextInput
