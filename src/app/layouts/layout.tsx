@@ -7,6 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import { VacancyFilterPanel } from "@features/ui/VacancyFilterTab/vacancy-filter-tab";
+import { useUserData } from "@shared/lib/hooks/useUserData";
 
 interface ILayout {
   children: React.ReactNode;
@@ -46,6 +47,7 @@ export const Layout: React.FC<ILayout> = ({
   isBack = false,
   isChat = false,
 }) => {
+  const { userData } = useUserData();
   const navigation = useNavigation();
 
   return (
@@ -92,7 +94,9 @@ export const Layout: React.FC<ILayout> = ({
               )}
             </Text>
             {!isChat && (
-              <Text className="text-primary text-base">Ruslan Makhmatov</Text>
+              <Text className="text-primary text-base">
+                {userData?.username}
+              </Text>
             )}
           </View>
         </View>

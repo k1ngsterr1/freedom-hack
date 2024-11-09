@@ -5,6 +5,7 @@ import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opaci
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useUserData } from "@shared/lib/hooks/useUserData";
 
 interface Vacancy {
   id: string;
@@ -92,6 +93,8 @@ const HRProfileScreen: React.FC = () => {
     navigation.navigate("AllVacancies" as never);
   };
 
+  const { userData } = useUserData();
+
   return (
     <Layout isScroll isHeader isHR isNoMarginBottom>
       <View className="w-full mt-2">
@@ -103,7 +106,9 @@ const HRProfileScreen: React.FC = () => {
             className="w-20 h-20 rounded-full mr-4"
           />
           <View>
-            <Text className="text-2xl font-bold text-text">Анна Смирнова</Text>
+            <Text className="text-2xl font-bold text-text">
+              {userData?.username}
+            </Text>
             <Text className="text-base text-secondary">HR-менеджер</Text>
           </View>
           <MyTouchableOpacity
