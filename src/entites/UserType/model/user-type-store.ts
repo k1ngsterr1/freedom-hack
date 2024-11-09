@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type UserType = "Работник" | "Работодатель";
+type UserType = "User" | "HR";
 
 interface AppState {
   selectedType: UserType | null;

@@ -16,7 +16,7 @@ export const UserTypeSelector = () => {
           className={`flex-1 h-12 items-center justify-center rounded-full ${
             selectedType === type ? "bg-primary" : "bg-gray-200"
           } ${type === "Работодатель" ? "ml-2" : "mr-2"}`}
-          onPress={() => setSelectedType(type as "Работник" | "Работодатель")}
+          onPress={() => setSelectedType(type as "User" | "HR")}
         >
           <Text
             className={`text-base ${

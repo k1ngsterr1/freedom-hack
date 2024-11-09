@@ -31,7 +31,7 @@ export const RootNavigator = () => {
         ref={navigationRef}
         onStateChange={handleStateChange}
       >
-        {selectedType === "Работодатель" ? <HRStack /> : <AuthStack />}
+        {selectedType === "HR" ? <HRStack /> : <AuthStack />}
       </NavigationContainer>
     </>
   );
