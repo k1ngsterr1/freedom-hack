@@ -73,7 +73,9 @@ export const Layout: React.FC<ILayout> = ({
           <View className="flex flex-col items-end">
             <Text className="text-text text-bold text-2xl">
               {isChat ? (
-                <MyTouchableOpacity onPress={() => console.log("LOL")}>
+                <MyTouchableOpacity
+                  onPress={() => navigation.navigate("AllChatsScreen" as never)}
+                >
                   <Feather name="message-circle" size={32} color="#045433" />
                 </MyTouchableOpacity>
               ) : isHR ? (
