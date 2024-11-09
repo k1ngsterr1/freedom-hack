@@ -13,16 +13,23 @@ export interface Question {
 interface TestTabProps {
   questions: Question[];
   onComplete: (answers: { [key: number]: string }) => void;
+  allowManualNext?: boolean;
 }
 
 export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleAnswer = (questionId: number, answer: string) => {
+    setSelectedOption(answer);
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
+  };
+
+  const handleNextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
+      setSelectedOption(null);
     }
   };
 
@@ -49,15 +56,13 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
           <MyTouchableOpacity
             key={index}
             className={`mb-3 p-4 rounded-xl ${
-              answers[questions[currentQuestion].id] === option
-                ? "bg-primary"
-                : "bg-gray-100"
+              selectedOption === option ? "bg-primary" : "bg-gray-100"
             }`}
             onPress={() => handleAnswer(questions[currentQuestion].id, option)}
           >
             <Text
               className={`text-base ${
-                answers[questions[currentQuestion].id] === option
+                selectedOption === option
                   ? "text-white font-semibold"
                   : "text-text"
               }`}
@@ -71,7 +76,12 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
       <View className="flex-row justify-between mb-6">
         <MyTouchableOpacity
           className="flex-row items-center"
-          onPress={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
+          onPress={() => {
+            setCurrentQuestion(Math.max(0, currentQuestion - 1));
+            setSelectedOption(
+              answers[questions[currentQuestion - 1]?.id] || null
+            );
+          }}
           disabled={currentQuestion === 0}
         >
           <Feather
@@ -89,19 +99,27 @@ export const TestTab: React.FC<TestTabProps> = ({ questions, onComplete }) => {
         </MyTouchableOpacity>
         {currentQuestion === questions.length - 1 ? (
           <MyTouchableOpacity
-            className="bg-primary px-6 py-3 rounded-full"
+            className={`px-6 py-3 rounded-full ${
+              selectedOption ? "bg-primary" : "bg-gray-300"
+            }`}
             onPress={handleSubmit}
+            disabled={!selectedOption}
           >
-            <Text className="text-white font-semibold">Завершить тест</Text>
+            <Text
+              className={`font-semibold ${
+                selectedOption ? "text-white" : "text-gray-500"
+              }`}
+            >
+              Завершить тест
+            </Text>
           </MyTouchableOpacity>
         ) : (
           <MyTouchableOpacity
-            className="flex-row items-center"
-            onPress={() =>
-              setCurrentQuestion(
-                Math.min(questions.length - 1, currentQuestion + 1)
-              )
-            }
+            className={`flex-row items-center ${
+              selectedOption ? "opacity-100" : "opacity-50"
+            }`}
+            onPress={handleNextQuestion}
+            disabled={!selectedOption}
           >
             <Text className="mr-2 text-primary">Далее</Text>
             <Feather name="chevron-right" size={24} color="#4FB84F" />

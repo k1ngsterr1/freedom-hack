@@ -2,8 +2,10 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Layout } from "@app/layouts/layout";
 import { Question, TestTab } from "src/entites/TestTab/test-tab";
+import { View } from "react-native";
+import Text from "@shared/ui/Text/text";
 
-export const TestScreen = () => {
+export const WorkStyleTestScreen = () => {
   const navigation = useNavigation();
 
   const questions: Question[] = [
@@ -157,8 +159,17 @@ export const TestScreen = () => {
   };
 
   return (
-    <Layout isLogo isBottomTab>
-      <TestTab questions={questions} onComplete={handleTestComplete} />
+    <Layout isLogo>
+      <View className="mb-6">
+        <Text className="text-2xl font-bold text-center">
+          Оценка рабочего стиля
+        </Text>
+      </View>
+      <TestTab
+        questions={questions}
+        onComplete={handleTestComplete}
+        allowManualNext={true}
+      />
     </Layout>
   );
 };
