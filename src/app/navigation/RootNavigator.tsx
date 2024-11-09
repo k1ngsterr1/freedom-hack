@@ -22,7 +22,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import PreferableResumesScreen from "@app/screens/PreferableResumes/preferable-resumes-screen";
 import { RecommendedVacanciesScreen } from "@app/screens/RecommendedVacancies/recommended-vacancies-screen";
-import { JobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
+import { CustomJobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
@@ -44,7 +44,7 @@ export const RootNavigator = () => (
 
         {/* User Screens */}
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Test" component={JobSeekerDashboard} />
+        <Stack.Screen name="Test" component={CustomJobSeekerDashboard} />
         <Stack.Screen name="Settings" component={EnhancedSettingsScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
 
