@@ -3,7 +3,6 @@ import { SafeAreaView, View, ScrollView, TouchableOpacity } from "react-native";
 import { BottomTab } from "@features/ui/BottomTab/bottom-tab";
 import { FiltersTabs } from "@features/ui/FiltersTab/filters-tab";
 import Text from "@shared/ui/Text/text";
-import { useUserStackStore } from "src/entites/FilterTab/model/filter-tab-store";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
@@ -48,7 +47,6 @@ export const Layout: React.FC<ILayout> = ({
   isChat = false,
 }) => {
   const navigation = useNavigation();
-  const { isOpen } = useUserStackStore();
 
   return (
     <SafeAreaView className="flex-1">
@@ -60,18 +58,26 @@ export const Layout: React.FC<ILayout> = ({
         )}
       </View>
       {isHeader && (
-        <View className="w-[90%]  m-auto flex flex-row items-center justify-between">
+        <View
+          className={`w-[90%]  m-auto flex flex-row items-center justify-between ${
+            !isBack && "flex-row-reverse"
+          } `}
+        >
           {isBack && (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Feather name="chevron-left" size={24} color="#045433" />
+              <Feather name="chevron-left" size={32} color="#045433" />
             </TouchableOpacity>
           )}
           {!isBack && (
-            <View className="bg-primary w-[38px] h-[38px] flex items-center justify-center rounded-lg">
-              <Text className="text-white text-xl">F</Text>
-            </View>
+            <MyTouchableOpacity
+              onPress={() => navigation.navigate("AllChatsScreen" as never)}
+            >
+              <Feather name="message-circle" size={32} color="#045433" />
+            </MyTouchableOpacity>
           )}
-          <View className="flex flex-col items-end">
+          <View
+            className={`flex flex-col ${!isBack ? "items-start" : "items-end"}`}
+          >
             <Text className="text-text text-bold text-2xl">
               {isChat ? (
                 <MyTouchableOpacity

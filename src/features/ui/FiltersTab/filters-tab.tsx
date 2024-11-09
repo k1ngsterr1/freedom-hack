@@ -184,7 +184,7 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
           <View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mb-2" />
           <Text className="text-text text-lg font-bold">Фильтры</Text>
         </View>
-        <ScrollView className="p-4 max-h-80">
+        <View className="p-4 pb-10">
           <View className="mb-6">
             <Text className="text-text text-base font-semibold mb-2">
               Диапазон зарплаты
@@ -241,7 +241,7 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
               </Text>
             </MyTouchableOpacity>
           ))}
-        </ScrollView>
+        </View>
       </Animated.View>
     </PanGestureHandler>
   );
