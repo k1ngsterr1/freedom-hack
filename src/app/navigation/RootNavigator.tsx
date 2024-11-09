@@ -7,7 +7,6 @@ import { LoginScreen } from "@app/screens/LoginScreen/login-screen";
 import { RegistrationScreen } from "@app/screens/RegistrationScreen/registration-screen";
 import SearchScreen from "@app/screens/SearchScreen/search-screen";
 import { StartScreen } from "@app/screens/StartScreen/start-screen";
-import { TestScreen } from "@app/screens/TestScreen/test-screen";
 import { EnhancedSettingsScreen } from "@app/screens/SettingsScreen/settings-screen";
 import AddVacancyScreen from "@app/screens/AddVacancyScreen/add-vacancy-screen";
 import AllChatsScreen from "@app/screens/AllChatsScreen/all-chats-screen";
@@ -24,6 +23,10 @@ import PreferableResumesScreen from "@app/screens/PreferableResumes/preferable-r
 import { RecommendedVacanciesScreen } from "@app/screens/RecommendedVacancies/recommended-vacancies-screen";
 import { CustomJobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { WorkStyleTestScreen } from "@app/screens/TestScreens/work-style-screen";
+import { JobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
+import { PersonalityTypeTestScreen } from "@app/screens/TestScreens/personality-type-screen";
+import { ProfessionalSkillsTestScreen } from "@app/screens/TestScreens/analysis-professional-skills-screen";
+
 
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
@@ -67,6 +70,14 @@ export const RootNavigator = () => (
           component={RecommendedVacanciesScreen}
         />
         <Stack.Screen name="WorkStyleTest" component={WorkStyleTestScreen} />
+        <Stack.Screen
+          name="PersonalityTypeTest"
+          component={PersonalityTypeTestScreen}
+        />
+        <Stack.Screen
+          name="ProfessionalSkillsTestScreen"
+          component={ProfessionalSkillsTestScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   </>

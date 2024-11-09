@@ -159,17 +159,17 @@ export const WorkStyleTestScreen = () => {
   };
 
   return (
-    <Layout isLogo>
-      <View className="mb-6">
-        <Text className="text-2xl font-bold text-center">
-          Оценка рабочего стиля
-        </Text>
+    <Layout isBack isHeader>
+      <View className=" mt-16 items-center justify-center">
+        <View className="mb-6">
+          <Text className="text-xl font-bold">Оценка рабочего стиля</Text>
+        </View>
+        <TestTab
+          questions={questions}
+          onComplete={handleTestComplete}
+          allowManualNext={true}
+        />
       </View>
-      <TestTab
-        questions={questions}
-        onComplete={handleTestComplete}
-        allowManualNext={true}
-      />
     </Layout>
   );
 };
