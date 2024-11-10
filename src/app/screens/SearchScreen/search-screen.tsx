@@ -109,8 +109,6 @@ export default function SearchScreen() {
     getVacancies();
   }, []);
 
-  const vacancyId = 7;
-
   useEffect(() => {
     filterVacancies();
   }, [filterVacancies]);
@@ -121,7 +119,7 @@ export default function SearchScreen() {
 
   if (loading) {
     return (
-      <Layout isHeader isBottomTab isNoMarginBottom={true} isBack>
+      <Layout isHeader isBottomTab isNoMarginBottom={true} isChat>
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#4FB84F" />
           <Text className="mt-4 text-text">Loading vacancies...</Text>
@@ -132,7 +130,7 @@ export default function SearchScreen() {
 
   if (error) {
     return (
-      <Layout isHeader isBottomTab isNoMarginBottom={true} isBack>
+      <Layout isHeader isBottomTab isNoMarginBottom={true} isChat>
         <View className="flex-1 justify-center items-center">
           <Text className="text-red-500 text-center">{error}</Text>
         </View>
@@ -141,7 +139,7 @@ export default function SearchScreen() {
   }
 
   return (
-    <Layout isHeader isBottomTab isNoMarginBottom={true} isBack>
+    <Layout isBottomTab isHeader isScroll>
       <View className="flex-1 w-full mt-4">
         <View className="flex-row items-center mb-4">
           <TextInput

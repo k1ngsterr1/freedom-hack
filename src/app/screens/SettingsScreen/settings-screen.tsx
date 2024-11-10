@@ -101,7 +101,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
   );
 
   return (
-    <Layout isHeader isBottomTab isScroll isBack>
+    <Layout isBottomTab isHeader isScroll>
       <View className="flex-1 w-full">
         <View className=" pt-12 pb-20 rounded-b-3xl">
           <Animated.View
