@@ -25,7 +25,7 @@ interface SearchResult {
 const mockResults: SearchResult[] = [
   {
     id: "1",
-    name: "",
+    name: "Иван Купитман",
     position: "Frontend Developer",
     experience: 5,
     value: 85,
@@ -141,8 +141,8 @@ export default function PreferableResumesScreen() {
         </View>
         <View className="flex-row items-center justify-between mb-4">
           <View className="flex-row">
-            {renderSortButton("mostValuable", "Самые ценные")}
-            {renderSortButton("leastValuable", "Менее ценные")}
+            {renderSortButton("mostValuable", "Менее ценные ")}
+            {renderSortButton("leastValuable", "Самые ценные")}
           </View>
           <MyTouchableOpacity
             onPress={() => toggleOpenClose()}

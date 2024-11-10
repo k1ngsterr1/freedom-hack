@@ -23,11 +23,9 @@ import PreferableResumesScreen from "@app/screens/PreferableResumes/preferable-r
 import { RecommendedVacanciesScreen } from "@app/screens/RecommendedVacancies/recommended-vacancies-screen";
 import { CustomJobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { WorkStyleTestScreen } from "@app/screens/TestScreens/work-style-screen";
-import { JobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { PersonalityTypeTestScreen } from "@app/screens/TestScreens/personality-type-screen";
 import { ProfessionalSkillsTestScreen } from "@app/screens/TestScreens/analysis-professional-skills-screen";
 import VacancyDetailScreen from "@app/screens/InnerVacancySearchScreen/inner-vacancy-search-screen";
-
 
 // Create the stack navigator
 const Stack = createNativeStackNavigator();
