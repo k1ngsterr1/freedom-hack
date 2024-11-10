@@ -26,6 +26,7 @@ import { WorkStyleTestScreen } from "@app/screens/TestScreens/work-style-screen"
 import { JobSeekerDashboard } from "@app/screens/ChartScreen/ChartScreen";
 import { PersonalityTypeTestScreen } from "@app/screens/TestScreens/personality-type-screen";
 import { ProfessionalSkillsTestScreen } from "@app/screens/TestScreens/analysis-professional-skills-screen";
+import VacancyDetailScreen from "@app/screens/InnerVacancySearchScreen/inner-vacancy-search-screen";
 
 
 // Create the stack navigator
@@ -77,6 +78,10 @@ export const RootNavigator = () => (
         <Stack.Screen
           name="ProfessionalSkillsTestScreen"
           component={ProfessionalSkillsTestScreen}
+        />
+        <Stack.Screen
+          name="InnerVacancySearchScreen"
+          component={VacancyDetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { SafeAreaView, View, ScrollView, TouchableOpacity } from "react-native";
 import { BottomTab } from "@features/ui/BottomTab/bottom-tab";
 import { FiltersTabs } from "@features/ui/FiltersTab/filters-tab";
@@ -50,6 +50,10 @@ export const Layout: React.FC<ILayout> = ({
   const { userData } = useUserData();
   const navigation = useNavigation();
 
+  const filterVacancies = useCallback(() => {
+    console.log("Filters applied!");
+  }, []);
+
   return (
     <SafeAreaView className="flex-1">
       <View className="w-full flex items-center justify-center mt-4">
@@ -61,7 +65,7 @@ export const Layout: React.FC<ILayout> = ({
       </View>
       {isHeader && (
         <View
-          className={`w-[90%]  m-auto flex flex-row items-center justify-between ${
+          className={`w-[90%] m-auto flex flex-row items-center justify-between ${
             !isBack && "flex-row-reverse"
           } `}
         >
@@ -102,7 +106,7 @@ export const Layout: React.FC<ILayout> = ({
         </View>
       )}
       <View
-        className={`w-full  flex h-[81vh] flex-col m-auto ${
+        className={`w-full flex h-[81vh] flex-col m-auto ${
           isScroll ? "mt-8" : ""
         } ${isHR ? "mt-0" : ""} px-4 pt-3`}
       >
@@ -131,10 +135,7 @@ export const Layout: React.FC<ILayout> = ({
         )}
         {isBottomTab && <BottomTab />}
       </View>
-      <FiltersTabs
-        options={filterOptions}
-        onFilterChange={() => console.log("LOL")}
-      />
+      <FiltersTabs options={filterOptions} onFilterApply={filterVacancies} />
       <VacancyFilterPanel />
     </SafeAreaView>
   );
