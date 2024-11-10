@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-community/slider": "^4.5.5",
     "@react-navigation/native": "^6.1.18",
     "axios": "^1.7.7",
     "babel-plugin-module-resolver": "^5.0.2",

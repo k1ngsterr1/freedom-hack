@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView, Dimensions } from "react-native";
 import Animated, {
   useSharedValue,
@@ -8,7 +8,6 @@ import Animated, {
   Easing,
   useAnimatedGestureHandler,
   runOnJS,
-  interpolate,
 } from "react-native-reanimated";
 import {
   PanGestureHandler,
@@ -16,6 +15,8 @@ import {
 } from "react-native-gesture-handler";
 import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import Text from "@shared/ui/Text/text";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { useFilterStore } from "src/entites/VacancyFilter/use-vacancy-store";
 import { useUserStackStore } from "src/entites/FilterTab/model/filter-tab-store";
 
 interface FilterOption {
@@ -25,75 +26,50 @@ interface FilterOption {
 
 interface FiltersTabsProps {
   options: FilterOption[];
-  onFilterChange: (
-    selectedFilters: string[],
-    salaryRange: { min: number; max: number }
-  ) => void;
+  onFilterApply: () => void;
 }
 
 const { width, height } = Dimensions.get("window");
 const SWIPE_THRESHOLD = 50;
-const SLIDER_WIDTH = width - 32;
-const THUMB_SIZE = 24;
 const MIN_SALARY = 0;
-const MAX_SALARY = 200000;
-
-const Thumb: React.FC<{ position: Animated.SharedValue<number> }> = ({
-  position,
-}) => {
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: position.value }],
-  }));
-
-  return (
-    <Animated.View
-      style={[
-        {
-          width: THUMB_SIZE,
-          height: THUMB_SIZE,
-          borderRadius: THUMB_SIZE / 2,
-          backgroundColor: "#4FB84F",
-          position: "absolute",
-          top: -THUMB_SIZE / 2 + 2,
-        },
-        animatedStyle,
-      ]}
-    />
-  );
-};
+const MAX_SALARY = 1000000;
 
 export const FiltersTabs: React.FC<FiltersTabsProps> = ({
   options,
-  onFilterChange,
+  onFilterApply,
 }) => {
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [salaryRange, setSalaryRange] = useState({
-    min: MIN_SALARY,
-    max: MAX_SALARY,
-  });
-  const translateY = useSharedValue(0);
-  const opacity = useSharedValue(0);
-  const leftThumbPosition = useSharedValue(0);
-  const rightThumbPosition = useSharedValue(SLIDER_WIDTH);
+  const {
+    selectedFilters,
+    salaryRange,
+    sortOrder,
+    setFilters,
+    setSalaryRange,
+    setSortOrder,
+    resetFilters,
+  } = useFilterStore();
 
-  const isOpen = useUserStackStore((state) => state.isOpen);
-  const toggleOpenClose = useUserStackStore((state) => state.toggleOpenClose);
+  const translateY = useSharedValue(height);
+  const opacity = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
+    opacity: opacity.value,
   }));
+
+  const isOpen = useUserStackStore((state) => state.isOpen);
+  const toggleOpenClose = useUserStackStore((state) => state.toggleOpenClose);
 
   useEffect(() => {
     if (isOpen) {
       translateY.value = withSpring(0, { damping: 15, stiffness: 100 });
       opacity.value = withTiming(1, {
-        duration: 500,
+        duration: 300,
         easing: Easing.out(Easing.cubic),
       });
     } else {
       translateY.value = withSpring(height, { damping: 15, stiffness: 100 });
       opacity.value = withTiming(0, {
-        duration: 500,
+        duration: 300,
         easing: Easing.out(Easing.cubic),
       });
     }
@@ -120,59 +96,28 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
   });
 
   const toggleFilter = (filterId: string) => {
-    setSelectedFilters((prev) => {
-      const newFilters = prev.includes(filterId)
-        ? prev.filter((id) => id !== filterId)
-        : [...prev, filterId];
-      onFilterChange(newFilters, salaryRange);
-      return newFilters;
-    });
+    const updatedFilters = selectedFilters.includes(filterId)
+      ? selectedFilters.filter((id) => id !== filterId)
+      : [...selectedFilters, filterId];
+    setFilters(updatedFilters);
   };
 
-  const updateSalaryRange = (left: number, right: number) => {
-    const newMin = Math.round(
-      (left / SLIDER_WIDTH) * (MAX_SALARY - MIN_SALARY) + MIN_SALARY
-    );
-    const newMax = Math.round(
-      (right / SLIDER_WIDTH) * (MAX_SALARY - MIN_SALARY) + MIN_SALARY
-    );
-    setSalaryRange({ min: newMin, max: newMax });
-    onFilterChange(selectedFilters, { min: newMin, max: newMax });
+  const updateSalaryRange = (values: string[]) => {
+    setSalaryRange({ min: values[0], max: values[1] });
   };
 
-  const leftThumbHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx: any) => {
-      ctx.startX = leftThumbPosition.value;
-    },
-    onActive: (event, ctx) => {
-      const newPosition = ctx.startX + event.translationX;
-      leftThumbPosition.value = Math.max(
-        0,
-        Math.min(newPosition, rightThumbPosition.value - THUMB_SIZE)
-      );
-      runOnJS(updateSalaryRange)(
-        leftThumbPosition.value,
-        rightThumbPosition.value
-      );
-    },
-  });
+  const handleSortOrder = (order: "from_new" | "from_old") => {
+    setSortOrder(sortOrder === order ? null : order);
+  };
 
-  const rightThumbHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx: any) => {
-      ctx.startX = rightThumbPosition.value;
-    },
-    onActive: (event, ctx) => {
-      const newPosition = ctx.startX + event.translationX;
-      rightThumbPosition.value = Math.min(
-        SLIDER_WIDTH,
-        Math.max(newPosition, leftThumbPosition.value + THUMB_SIZE)
-      );
-      runOnJS(updateSalaryRange)(
-        leftThumbPosition.value,
-        rightThumbPosition.value
-      );
-    },
-  });
+  const applyFilters = () => {
+    onFilterApply();
+    runOnJS(toggleOpenClose)();
+  };
+
+  const handleResetFilters = () => {
+    resetFilters();
+  };
 
   return (
     <PanGestureHandler onGestureEvent={gestureHandler}>
@@ -182,41 +127,78 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
       >
         <View className="p-4 border-b border-gray-200">
           <View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mb-2" />
-          <Text className="text-text text-lg font-bold">Фильтры</Text>
+          <Text className="text-text text-2xl mt-2" weight="bold">
+            Фильтры
+          </Text>
         </View>
-        <View className="p-4 pb-10">
+        <ScrollView className="p-4 pb-10">
           <View className="mb-6">
-            <Text className="text-text text-base font-semibold mb-2">
-              Диапазон зарплаты
+            <Text className="text-text text-lg font-semibold mb-2">
+              Диапазон зарплаты:
             </Text>
-            <View className="h-1 bg-gray-200 rounded-full">
-              <Animated.View
-                className="h-1 bg-primary rounded-full"
-                style={[
-                  { left: leftThumbPosition.value },
-                  {
-                    width: interpolate(
-                      rightThumbPosition.value - leftThumbPosition.value,
-                      [0, SLIDER_WIDTH],
-                      [0, SLIDER_WIDTH]
-                    ),
-                  },
-                ]}
+            <View className="flex-row justify-between items-center">
+              <Text className="text-text text-sm">{salaryRange.min} ₸</Text>
+              <Text className="text-text text-sm">{salaryRange.max} ₸</Text>
+            </View>
+            <View className="mr-4">
+              <MultiSlider
+                values={[salaryRange.min, salaryRange.max]}
+                sliderLength={width - 40}
+                onValuesChange={updateSalaryRange}
+                min={MIN_SALARY}
+                max={MAX_SALARY}
+                step={1000}
+                allowOverlap={false}
+                snapped
+                selectedStyle={{ backgroundColor: "#4FB84F" }}
+                unselectedStyle={{ backgroundColor: "#E5E7EB" }}
+                containerStyle={{ height: 40 }}
+                trackStyle={{ height: 4, backgroundColor: "#E5E7EB" }}
+                markerStyle={{
+                  height: 22,
+                  width: 22,
+                  backgroundColor: "#4FB84F",
+                  borderRadius: 12,
+                }}
               />
             </View>
-            <PanGestureHandler onGestureEvent={leftThumbHandler}>
-              <Animated.View>
-                <Thumb position={leftThumbPosition} />
-              </Animated.View>
-            </PanGestureHandler>
-            <PanGestureHandler onGestureEvent={rightThumbHandler}>
-              <Animated.View>
-                <Thumb position={rightThumbPosition} />
-              </Animated.View>
-            </PanGestureHandler>
-            <View className="flex-row justify-between mt-4">
-              <Text className="text-text text-sm">{salaryRange.min} ₽</Text>
-              <Text className="text-text text-sm">{salaryRange.max} ₽</Text>
+          </View>
+          <View className="mb-6">
+            <Text className="text-text text-lg font-semibold mb-2">
+              Сортировка:
+            </Text>
+            <View className="flex-row ">
+              <MyTouchableOpacity
+                onPress={() => handleSortOrder("newest")}
+                className={`px-4 py-2 rounded-xl ${
+                  sortOrder === "newest" ? "bg-primary" : "bg-gray-200"
+                }`}
+              >
+                <Text
+                  className={`text-base ${
+                    sortOrder === "newest" ? "text-white" : "text-text"
+                  }`}
+                  weight={sortOrder === "newest" ? "bold" : "medium"}
+                >
+                  От новых
+                </Text>
+              </MyTouchableOpacity>
+
+              <MyTouchableOpacity
+                onPress={() => handleSortOrder("oldest")}
+                className={`px-4 py-2 rounded-xl ml-2 ${
+                  sortOrder === "oldest" ? "bg-primary" : "bg-gray-200"
+                }`}
+              >
+                <Text
+                  className={`text-base ${
+                    sortOrder === "oldest" ? "text-white" : "text-text"
+                  }`}
+                  weight={sortOrder === "oldest" ? "bold" : "medium"}
+                >
+                  От старых
+                </Text>
+              </MyTouchableOpacity>
             </View>
           </View>
           {options.map((option) => (
@@ -241,7 +223,25 @@ export const FiltersTabs: React.FC<FiltersTabsProps> = ({
               </Text>
             </MyTouchableOpacity>
           ))}
-        </View>
+          <View className="flex-row justify-between mb-6">
+            <MyTouchableOpacity
+              onPress={handleResetFilters}
+              className="bg-gray-200 rounded-lg py-3 px-4 flex-1 mr-2"
+            >
+              <Text className="text-text text-base text-center font-semibold">
+                Сбросить
+              </Text>
+            </MyTouchableOpacity>
+            <MyTouchableOpacity
+              onPress={applyFilters}
+              className="bg-primary rounded-lg py-3 px-4 flex-1 ml-2"
+            >
+              <Text className="text-white text-base text-center font-semibold">
+                Применить
+              </Text>
+            </MyTouchableOpacity>
+          </View>
+        </ScrollView>
       </Animated.View>
     </PanGestureHandler>
   );

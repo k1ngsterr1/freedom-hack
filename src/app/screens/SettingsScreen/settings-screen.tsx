@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Switch,
-} from "react-native";
+import { View, Switch } from "react-native";
+import MyTouchableOpacity from "@shared/ui/MyTouchableOpacity/my-touchable-opacity";
 import { Layout } from "@app/layouts/layout";
 import Text from "@shared/ui/Text/text";
 import { Feather } from "@expo/vector-icons";
@@ -76,7 +71,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
       key={lang.code}
       entering={FadeInRight.delay(index * 100).duration(400)}
     >
-      <TouchableOpacity
+      <MyTouchableOpacity
         className={`flex-row items-center justify-between p-4 border-b border-gray-200 ${
           selectedLanguage === lang.code ? "bg-[#4FB84F] bg-opacity-10" : ""
         }`}
@@ -84,12 +79,22 @@ export const EnhancedSettingsScreen: React.FC = () => {
       >
         <View className="flex-row items-center">
           <Text className="text-2xl mr-3">{lang.flag}</Text>
-          <Text className="text-lg text-gray-800">{lang.name}</Text>
+          <Text
+            className={`text-lg ${
+              selectedLanguage === lang.code ? "text-white" : "text-black"
+            }`}
+          >
+            {lang.name}
+          </Text>
         </View>
         {selectedLanguage === lang.code && (
-          <Feather name="check" size={20} color="#045433" />
+          <Feather
+            name="check"
+            size={20}
+            color={selectedLanguage === lang.code ? "#FFFFFF" : "#045433"}
+          />
         )}
-      </TouchableOpacity>
+      </MyTouchableOpacity>
     </Animated.View>
   );
 
@@ -101,7 +106,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
             className="items-center"
             entering={FadeInDown.duration(600)}
           >
-            <TouchableOpacity onPress={pickImage}>
+            <MyTouchableOpacity onPress={pickImage}>
               <Animated.Image
                 source={{ uri: profileImage }}
                 className="w-32 h-32 rounded-full border-4 border-white"
@@ -110,7 +115,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
               <View className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md">
                 <Feather name="camera" size={20} color="#045433" />
               </View>
-            </TouchableOpacity>
+            </MyTouchableOpacity>
             <Text className="text-2xl font-bold text-primary mt-4">
               John Doe
             </Text>
@@ -162,12 +167,12 @@ export const EnhancedSettingsScreen: React.FC = () => {
           </Animated.View>
 
           <Animated.View entering={FadeInDown.delay(600).duration(600)}>
-            <TouchableOpacity
+            <MyTouchableOpacity
               className="bg-red-500 py-4 px-6 rounded-xl items-center shadow-md mb-8"
               onPress={handleLogout}
             >
               <Text className="text-white font-bold text-lg">Logout</Text>
-            </TouchableOpacity>
+            </MyTouchableOpacity>
           </Animated.View>
         </View>
       </View>
