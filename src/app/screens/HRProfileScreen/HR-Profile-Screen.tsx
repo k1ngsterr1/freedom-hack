@@ -97,7 +97,7 @@ const HRProfileScreen: React.FC = () => {
   const { userData } = useUserData();
 
   return (
-    <Layout isScroll isHeader isHR isNoMarginBottom>
+    <Layout isScroll isHeader isVacancyButton isHR isNoMarginBottom>
       <View className="w-full mt-2">
         <View className="flex-row items-center mb-6">
           <Image source={image} className="w-20 h-20 rounded-full mr-4" />
@@ -204,14 +204,6 @@ const HRProfileScreen: React.FC = () => {
               </MyTouchableOpacity>
             ))}
           </View>
-          <MyTouchableOpacity
-            className="bg-primary py-4 px-6 rounded-full items-center"
-            onPress={handleAddVacancy}
-          >
-            <Text className="text-white text-lg font-semibold">
-              Добавить новую вакансию
-            </Text>
-          </MyTouchableOpacity>
         </View>
       </View>
     </Layout>

@@ -20,6 +20,7 @@ interface ILayout {
   isChat?: boolean;
   isBack?: boolean;
   isNoMarginBottom?: boolean;
+  isVacancyButton?: boolean;
 }
 
 interface FilterOption {
@@ -46,13 +47,20 @@ export const Layout: React.FC<ILayout> = ({
   isHR = false,
   isBack = false,
   isChat = false,
+  isVacancyButton = false,
 }) => {
   const { userData } = useUserData();
   const navigation = useNavigation();
 
+
   const filterVacancies = useCallback(() => {
     console.log("Filters applied!");
   }, []);
+
+  const handleAddVacancy = () => {
+    navigation.navigate("AddVacancy" as never); // Navigate to the Login screen
+  };
+
 
   return (
     <SafeAreaView className="flex-1">
@@ -134,6 +142,16 @@ export const Layout: React.FC<ILayout> = ({
           </View>
         )}
         {isBottomTab && <BottomTab />}
+        {isVacancyButton && (
+          <MyTouchableOpacity
+            className="bg-primary py-4 px-6 rounded-full items-center"
+            onPress={handleAddVacancy}
+          >
+            <Text className="text-white text-lg font-semibold">
+              Добавить новую вакансию
+            </Text>
+          </MyTouchableOpacity>
+        )}
       </View>
       <FiltersTabs options={filterOptions} onFilterApply={filterVacancies} />
       <VacancyFilterPanel />
