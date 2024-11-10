@@ -5,6 +5,7 @@ import Text from "@shared/ui/Text/text";
 import { axiosInstance } from "@shared/lib/hooks/useInterceptor";
 import { Ionicons } from "@expo/vector-icons";
 import { CandidateCard } from "@features/ui/CandidateCard/candidate-card";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Vacancy {
   id: string;
@@ -36,7 +37,11 @@ export const RecommendedVacanciesScreen = () => {
     const getVacancies = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get(`vacancies/recommend/6`);
+        const vacancyId = await AsyncStorage.getItem("vacancyId");
+
+        const response = await axiosInstance.get(
+          `vacancies/recommend/${vacancyId}`
+        );
         setVacancies(response.data);
         setLoading(false);
       } catch (error) {

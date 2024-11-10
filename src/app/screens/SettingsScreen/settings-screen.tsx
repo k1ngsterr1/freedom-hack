@@ -14,6 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserData } from "@shared/lib/hooks/useUserData";
 
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },
@@ -25,6 +26,7 @@ export const EnhancedSettingsScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState(
     "https://randomuser.me/api/portraits/men/1.jpg"
   );
+  const { userData } = useUserData();
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
@@ -117,9 +119,9 @@ export const EnhancedSettingsScreen: React.FC = () => {
               </View>
             </MyTouchableOpacity>
             <Text className="text-2xl font-bold text-primary mt-4">
-              John Doe
+              {userData?.username}
             </Text>
-            <Text className="text-base text-primary">john.doe@example.com</Text>
+            <Text className="text-base text-primary">{userData?.email}</Text>
           </Animated.View>
         </View>
         <View className="">

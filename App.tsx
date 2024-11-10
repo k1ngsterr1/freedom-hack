@@ -4,6 +4,10 @@ import { RootNavigator } from "@app/navigation/RootNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
